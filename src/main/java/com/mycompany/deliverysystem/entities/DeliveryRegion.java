@@ -11,13 +11,13 @@ package com.mycompany.deliverysystem.entities;
 public class DeliveryRegion {
     private int id;
     private int external_id;
-    private int longitued;
-    private int latitude;
+    private double longitude;
+    private double latitude;
     
-    public DeliveryRegion(int external_id, int longitude, int latitude)
+    public DeliveryRegion(int external_id, double longitude, double latitude)
     {
         this.external_id = external_id;
-        this.longitued = longitude;
+        this.longitude = longitude;
         this.latitude = latitude;
     }
 
@@ -50,30 +50,30 @@ public class DeliveryRegion {
     }
 
     /**
-     * @return the longitued
+     * @return the longitude
      */
-    public int getLongitued() {
-        return longitued;
+    public double getLongitude() {
+        return longitude;
     }
 
     /**
-     * @param longitued the longitued to set
+     * @param longitude the longitude to set
      */
-    public void setLongitued(int longitued) {
-        this.longitued = longitued;
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
     /**
      * @return the latitude
      */
-    public int getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
     /**
      * @param latitude the latitude to set
      */
-    public void setLatitude(int latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 }

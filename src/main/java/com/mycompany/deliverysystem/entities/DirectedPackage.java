@@ -11,14 +11,14 @@ package com.mycompany.deliverysystem.entities;
 public class DirectedPackage {
     
     private int id;
-    private int package_id;
+    private String address;
     private int delivery_region_id;
     private boolean delivered;
     
-    public DirectedPackage(int package_id, int delivery_region_id)
+    public DirectedPackage(String address, int delivery_region_id)
     {
-        this.package_id = package_id;
         this.delivery_region_id = delivery_region_id;
+        this.address = address;
         this.delivered = false;
     }
 
@@ -34,20 +34,6 @@ public class DirectedPackage {
      */
     public void setId(int id) {
         this.id = id;
-    }
-
-    /**
-     * @return the package_id
-     */
-    public int getPackage_id() {
-        return package_id;
-    }
-
-    /**
-     * @param package_id the package_id to set
-     */
-    public void setPackage_id(int package_id) {
-        this.package_id = package_id;
     }
 
     /**
@@ -76,5 +62,19 @@ public class DirectedPackage {
      */
     public void setDelivered(boolean delivered) {
         this.delivered = delivered;
+    }
+
+    /**
+     * @return the address
+     */
+    public String getAddress() {
+        return address;
+    }
+
+    /**
+     * @param address the address to set
+     */
+    public void setAddress(String address) {
+        this.address = address;
     }
 }
