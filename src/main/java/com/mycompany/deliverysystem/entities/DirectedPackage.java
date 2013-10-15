@@ -6,7 +6,7 @@ package com.mycompany.deliverysystem.entities;
 
 /**
  *
- * @author rafael
+ * @author rafael, dominik
  */
 public class DirectedPackage {
     
