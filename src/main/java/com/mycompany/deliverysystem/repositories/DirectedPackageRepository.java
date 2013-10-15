@@ -6,10 +6,9 @@ package com.mycompany.deliverysystem.repositories;
 
 /**
  *
- * @author rafael
+ * @author rafael, dominik
  */
 public interface DirectedPackageRepository<DirectedPackage> extends Repository {
     public Iterable<DirectedPackage> getDirectedPackageByRegionId(int region_id);
     public void setPackageAsDelivered(int delivered_package_id);
-    public DirectedPackage getPackageByAddress(String address);
 }

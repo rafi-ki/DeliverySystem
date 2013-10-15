@@ -6,7 +6,7 @@ package com.mycompany.deliverysystem.repositories;
 
 /**
  * This Interface defines the Method of a very general Repository
- * @author rafael
+ * @author rafael, dominik
  */
 public interface Repository<T> {
     public void add(T Object);

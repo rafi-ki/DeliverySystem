@@ -6,7 +6,7 @@ package com.mycompany.deliverysystem.repositories;
 
 /**
  *
- * @author rafael
+ * @author rafael, dominik
  */
 public interface DeliveryRegionRepository<DeliveryRegion> extends Repository{
     public DeliveryRegion getByExternalId(int id);
