@@ -6,7 +6,7 @@ package com.mycompany.deliverysystem.repositories;
 
 /**
  *
- * @author dominik
+ * @author dominik,rafael
  */
 public class DirectedPackageRepositoryImpl implements DirectedPackageRepository {
 

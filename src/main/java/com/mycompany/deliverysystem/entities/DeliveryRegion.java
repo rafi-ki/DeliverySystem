@@ -4,6 +4,8 @@
  */
 package com.mycompany.deliverysystem.entities;
 
+import defines.GeoLocation;
+
 /**
  *
  * @author rafael, dominik
@@ -11,14 +13,12 @@ package com.mycompany.deliverysystem.entities;
 public class DeliveryRegion {
     private int id;
     private int external_id;
-    private double longitude;
-    private double latitude;
+    private GeoLocation location;
     
-    public DeliveryRegion(int external_id, double longitude, double latitude)
+    public DeliveryRegion(int external_id,GeoLocation location)
     {
         this.external_id = external_id;
-        this.longitude = longitude;
-        this.latitude = latitude;
+        this.location=location;
     }
 
     /**
@@ -50,30 +50,17 @@ public class DeliveryRegion {
     }
 
     /**
-     * @return the longitude
+     * @return the location
      */
-    public double getLongitude() {
-        return longitude;
+    public GeoLocation getLocation() {
+        return location;
     }
 
     /**
-     * @param longitude the longitude to set
+     * @param location the location to set
      */
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
+    public void setLocation(GeoLocation location) {
+        this.location = location;
     }
 
-    /**
-     * @return the latitude
-     */
-    public double getLatitude() {
-        return latitude;
-    }
-
-    /**
-     * @param latitude the latitude to set
-     */
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
-    }
 }
