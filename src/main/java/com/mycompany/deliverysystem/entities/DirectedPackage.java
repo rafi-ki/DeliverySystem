@@ -4,16 +4,29 @@
  */
 package com.mycompany.deliverysystem.entities;
 
+import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
 /**
  *
  * @author rafael, dominik
  */
-public class DirectedPackage {
+@Entity
+public class DirectedPackage implements Serializable{
     
-    private int id;
+    @Id
+    @GeneratedValue
+    private long id;
     private String address;
-    private DeliveryRegion deliveryRegion;
     private boolean delivered;
+    
+    @ManyToOne
+    private DeliveryRegion deliveryRegion;
+    
+    public DirectedPackage(){};
     
     public DirectedPackage(String address, DeliveryRegion deliveryRegion)
     {
@@ -25,14 +38,14 @@ public class DirectedPackage {
     /**
      * @return the id
      */
-    public int getId() {
+    public long getId() {
         return id;
     }
 
     /**
      * @param id the id to set
      */
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -76,5 +89,14 @@ public class DirectedPackage {
      */
     public void setAddress(String address) {
         this.address = address;
+    }
+    
+    @Override
+    public String toString()
+    {
+        return "DirectedPackage: id<" + id + ">, "
+                + "address<" + address + ">, "
+                + "delivered<" + delivered + ">, "
+                + "deliveryregion_externalId<" + deliveryRegion.getExternal_id() + ">";
     }
 }
