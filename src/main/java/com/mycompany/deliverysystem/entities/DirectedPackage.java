@@ -52,7 +52,7 @@ public class DirectedPackage implements Serializable{
     /**
      * @return the delivery_region_id
      */
-    public DeliveryRegion getDelivery_region_id() {
+    public DeliveryRegion getDeliveryRegion() {
         return deliveryRegion;
     }
 

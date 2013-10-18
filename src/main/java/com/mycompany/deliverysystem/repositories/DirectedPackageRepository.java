@@ -4,11 +4,13 @@
  */
 package com.mycompany.deliverysystem.repositories;
 
+import com.mycompany.deliverysystem.entities.DirectedPackage;
+
 /**
  *
  * @author rafael, dominik
  */
-public interface DirectedPackageRepository<DirectedPackage> extends Repository {
-    public Iterable<DirectedPackage> getDirectedPackageByRegionId(int region_id);
-    public void setPackageAsDelivered(int delivered_package_id);
+public interface DirectedPackageRepository extends Repository<DirectedPackage> {
+    public Iterable getDirectedPackageByRegionId(long region_id);
+    public void setPackageAsDelivered(long delivered_package_id);
 }

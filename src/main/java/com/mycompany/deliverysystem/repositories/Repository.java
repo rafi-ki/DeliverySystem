@@ -10,8 +10,8 @@ package com.mycompany.deliverysystem.repositories;
  */
 public interface Repository<T> {
     public void add(T Object);
-    public void update(T Object);
-    public void delete(int id);
+    public void update(long id, T Object);
+    public void delete(long id);
     public Iterable<T> getAll();
     public T getById(int id);
 }
