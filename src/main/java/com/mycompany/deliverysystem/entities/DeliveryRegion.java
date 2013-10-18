@@ -21,7 +21,7 @@ public class DeliveryRegion implements Serializable{
     
     @Id
     @GeneratedValue
-    private Long id;
+    private long id;
     
     private int external_id;
     private double longitude;
