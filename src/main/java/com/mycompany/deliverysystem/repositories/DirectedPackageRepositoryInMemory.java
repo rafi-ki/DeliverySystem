@@ -42,20 +42,41 @@ public class DirectedPackageRepositoryInMemory implements DirectedPackageReposit
         this.packageList.add(Object);
     }
 
-    public void update(long id, DirectedPackage Object) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void update(long id, DirectedPackage newPackage) {
+        DirectedPackage pToDelete = null;
+        for (DirectedPackage dirPackage : packageList)
+        {
+            if(dirPackage.getId() == id)
+               pToDelete = dirPackage;
+        }
+        if (pToDelete != null)
+        {
+            newPackage.setId(pToDelete.getId());
+            packageList.remove(pToDelete);
+            packageList.add(newPackage);
+        }
     }
 
     public void delete(long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        DirectedPackage pToDelete = null;
+        for (DirectedPackage p : packageList)
+        {
+            if (p.getId() == id)
+            {
+                pToDelete = p;
+                break;
+            }
+        }
+        if (pToDelete != null)
+            packageList.remove(pToDelete);
     }
 
     public Iterable<DirectedPackage> getAll() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return packageList;
     }
 
-    public DirectedPackage getById(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public DirectedPackage getById(long id) {
+        return null;
     }
 
     

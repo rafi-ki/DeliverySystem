@@ -13,5 +13,5 @@ public interface Repository<T> {
     public void update(long id, T Object);
     public void delete(long id);
     public Iterable<T> getAll();
-    public T getById(int id);
+    public T getById(long id);
 }
