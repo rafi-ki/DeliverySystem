@@ -71,20 +71,37 @@ public class DeliveryRegionRepositoryInMemory implements DeliveryRegionRepositor
         regions.add(newRegion);
     }
 
-    public void update(long id,DeliveryRegion Object) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void update(long id,DeliveryRegion object) {
+        for (DeliveryRegion tempregion:regions){
+            if(tempregion.getId()== id ){
+                regions.set(regions.indexOf(tempregion), object);
+            }
+        }
     }
 
     public void delete(long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        DeliveryRegion todel=null;
+        for (DeliveryRegion tempregion:regions){
+            if(tempregion.getId()== id ){
+                todel=tempregion;
+            }
+        }
+        if(todel!=null){
+            regions.remove(todel);
+        }
     }
 
     public Iterable<DeliveryRegion> getAll() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return regions;
     }
 
-    public DeliveryRegion getById(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public DeliveryRegion getById(long id) {
+        for (DeliveryRegion tempregion:regions){
+            if(tempregion.getId()== id ){
+               return tempregion;
+            }
+        }
+        return null;
     }
 
     

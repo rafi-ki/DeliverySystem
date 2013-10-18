@@ -5,6 +5,7 @@
 package com.mycompany.deliverysystem.repositories;
 
 import com.mycompany.deliverysystem.entities.DeliveryRegion;
+import java.util.List;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import junit.framework.TestCase;
@@ -139,11 +140,27 @@ public class DeliveryRegionRepositoryInMemoryTest extends TestCase {
      */
     public void testUpdate() {
         System.out.println("update");
-        DeliveryRegion Object = null;
+        
         DeliveryRegionRepositoryInMemory instance = new DeliveryRegionRepositoryInMemory();
-        instance.update(13,Object);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        DeliveryRegion tempregion =new DeliveryRegion(123,5.44,5.44);
+        tempregion.setId(1);
+        instance.regions.add(tempregion);
+        tempregion = new DeliveryRegion(325,3.44,3.44);
+        tempregion.setId(2);
+        instance.regions.add(tempregion);
+        tempregion = new DeliveryRegion(987,4.44,4.44);
+        tempregion.setId(3);
+        instance.regions.add(tempregion);
+        
+        instance.update(1, new DeliveryRegion(1,2,3));
+        
+        DeliveryRegion result=instance.regions.get(0);
+        
+        assertNotNull(result);
+        assertEquals(2.0, result.getLongitude());
+        assertEquals(3.0, result.getLatitude());
+        assertEquals(1, result.getExternal_id());
+        
     }
 
     /**
@@ -152,22 +169,41 @@ public class DeliveryRegionRepositoryInMemoryTest extends TestCase {
     public void testDelete() {
         System.out.println("delete");
         DeliveryRegionRepositoryInMemory instance = new DeliveryRegionRepositoryInMemory();
-        instance.delete(123);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        DeliveryRegion tempregion =new DeliveryRegion(123,5.44,5.44);
+        tempregion.setId(1);
+        instance.regions.add(tempregion);
+        
+        instance.delete(1);
+        
+        assertEquals(instance.regions.isEmpty(),true);
+        
     }
-
+    
+    public void testDeleteInvalid() {
+        System.out.println("delete");
+        DeliveryRegionRepositoryInMemory instance = new DeliveryRegionRepositoryInMemory();
+        DeliveryRegion tempregion =new DeliveryRegion(123,5.44,5.44);
+        tempregion.setId(1);
+        instance.regions.add(tempregion);
+        
+        instance.delete(2);
+        
+        assertEquals(false,instance.regions.isEmpty());
+        
+    }
     /**
      * Test of getAll method, of class DeliveryRegionRepositoryInMemory.
      */
     public void testGetAll() {
         System.out.println("getAll");
+        
         DeliveryRegionRepositoryInMemory instance = new DeliveryRegionRepositoryInMemory();
-        Iterable expResult = null;
-        Iterable result = instance.getAll();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        instance.regions.add(new DeliveryRegion(123,5.44,5.44));
+        instance.regions.add(new DeliveryRegion(325,3.44,3.44));
+        instance.regions.add(new DeliveryRegion(495,4.44,4.44));
+        
+        List result = (List) instance.getAll();
+        assertEquals(3, result.size());
     }
 
     /**
@@ -175,12 +211,41 @@ public class DeliveryRegionRepositoryInMemoryTest extends TestCase {
      */
     public void testGetById() {
         System.out.println("getById");
-        int id = 0;
+        
         DeliveryRegionRepositoryInMemory instance = new DeliveryRegionRepositoryInMemory();
-        DeliveryRegion expResult = null;
-        DeliveryRegion result = instance.getById(id);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        DeliveryRegion tempregion =new DeliveryRegion(123,5.44,5.44);
+        tempregion.setId(1);
+        instance.regions.add(tempregion);
+        tempregion = new DeliveryRegion(325,3.44,3.44);
+        tempregion.setId(2);
+        instance.regions.add(tempregion);
+        tempregion = new DeliveryRegion(987,4.44,4.44);
+        tempregion.setId(3);
+        instance.regions.add(tempregion);
+        
+        DeliveryRegion result=instance.getById(2);
+        
+        assertNotNull(result);
+        assertEquals(3.44, result.getLongitude());
+        assertEquals(3.44, result.getLatitude());
+        assertEquals(325, result.getExternal_id());
+    }
+    public void testGetByIdInvalid() {
+        System.out.println("getById");
+        
+        DeliveryRegionRepositoryInMemory instance = new DeliveryRegionRepositoryInMemory();
+        DeliveryRegion tempregion =new DeliveryRegion(123,5.44,5.44);
+        tempregion.setId(1);
+        instance.regions.add(tempregion);
+        tempregion = new DeliveryRegion(325,3.44,3.44);
+        tempregion.setId(2);
+        instance.regions.add(tempregion);
+        tempregion = new DeliveryRegion(987,4.44,4.44);
+        tempregion.setId(3);
+        instance.regions.add(tempregion);
+        
+        DeliveryRegion result=instance.getById(20);
+        
+        assertEquals(null, result);
     }
 }
