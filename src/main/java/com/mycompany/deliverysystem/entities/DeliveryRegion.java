@@ -4,34 +4,53 @@
  */
 package com.mycompany.deliverysystem.entities;
 
-import defines.GeoLocation;
-
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 /**
  *
  * @author rafael, dominik
  */
-public class DeliveryRegion {
-    private int id;
-    private int external_id;
-    private GeoLocation location;
+@Entity
+public class DeliveryRegion implements Serializable{
     
-    public DeliveryRegion(int external_id,GeoLocation location)
+    @Id
+    @GeneratedValue
+    private Long id;
+    
+    private int external_id;
+    private double longitude;
+    private double latitude;
+    
+    @OneToMany (mappedBy="directedPackage",cascade=CascadeType.PERSIST)
+    private List<DirectedPackage> directedPackage = new ArrayList<DirectedPackage>();
+
+    public DeliveryRegion() {
+    }
+    
+    public DeliveryRegion(int external_id, double longitude, double latitude)
     {
         this.external_id = external_id;
-        this.location=location;
+        this.longitude = longitude;
+        this.latitude = latitude;
     }
 
     /**
      * @return the id
      */
-    public int getId() {
+    public long getId() {
         return id;
     }
 
     /**
      * @param id the id to set
      */
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -50,17 +69,45 @@ public class DeliveryRegion {
     }
 
     /**
-     * @return the location
+     * @return the longitude
      */
-    public GeoLocation getLocation() {
-        return location;
+    public double getLongitude() {
+        return longitude;
     }
 
     /**
-     * @param location the location to set
+     * @param longitude the longitude to set
      */
-    public void setLocation(GeoLocation location) {
-        this.location = location;
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    /**
+     * @return the latitude
+     */
+    public double getLatitude() {
+        return latitude;
+    }
+
+    /**
+     * @param latitude the latitude to set
+     */
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    /**
+     * @return the directedPackage
+     */
+    public List<DirectedPackage> getDirectedPackage() {
+        return directedPackage;
+    }
+
+    /**
+     * @param directedPackage the directedPackage to set
+     */
+    public void setDirectedPackage(List<DirectedPackage> directedPackage) {
+        this.directedPackage = directedPackage;
     }
 
 }
