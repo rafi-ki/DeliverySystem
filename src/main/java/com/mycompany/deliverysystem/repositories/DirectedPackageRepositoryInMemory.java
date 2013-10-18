@@ -76,7 +76,13 @@ public class DirectedPackageRepositoryInMemory implements DirectedPackageReposit
     }
 
     public DirectedPackage getById(long id) {
-        return null;
+        DirectedPackage result = null;
+        for (DirectedPackage p : packageList)
+        {
+            if (p.getId() == id)
+                result = p;
+        }
+        return result;
     }
 
     

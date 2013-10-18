@@ -102,6 +102,7 @@ public class DirectedPackageRepositoryInMemoryTest extends TestCase {
         
         //arrange
         DirectedPackageRepositoryInMemory instance = new DirectedPackageRepositoryInMemory();
+        instance.packageList.clear();
         DirectedPackage dirPackage = new DirectedPackage();
         instance.packageList.add(dirPackage);
         String expAddress = "Addresse 1";
@@ -113,7 +114,9 @@ public class DirectedPackageRepositoryInMemoryTest extends TestCase {
         instance.update(dirPackage.getId(), newPackage);
         
         //assert
-        
+        boolean equalAddress = instance.packageList.get(0).getAddress().equals(expAddress);
+        boolean equalDeliveredState = instance.packageList.get(0).isDelivered();
+        assertTrue(equalAddress && equalDeliveredState);
     }
 
     /**
@@ -121,11 +124,20 @@ public class DirectedPackageRepositoryInMemoryTest extends TestCase {
      */
     public void testDelete() {
         System.out.println("delete");
-        int id = 0;
+        
+        //arrange
         DirectedPackageRepositoryInMemory instance = new DirectedPackageRepositoryInMemory();
-        instance.delete(id);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        instance.packageList.clear();
+        DirectedPackage dirPackage = new DirectedPackage("Address", new DeliveryRegion());
+        long packageId = 1;
+        dirPackage.setId(packageId);
+        instance.packageList.add(dirPackage);
+        
+        //act
+        instance.delete(packageId);
+        
+        //arrange
+        assertTrue(instance.packageList.isEmpty());
     }
 
     /**
@@ -133,12 +145,18 @@ public class DirectedPackageRepositoryInMemoryTest extends TestCase {
      */
     public void testGetAll() {
         System.out.println("getAll");
+        
+        //arrange
         DirectedPackageRepositoryInMemory instance = new DirectedPackageRepositoryInMemory();
-        Iterable expResult = null;
-        Iterable result = instance.getAll();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        instance.packageList.clear();
+        instance.packageList.add(new DirectedPackage());
+        instance.packageList.add(new DirectedPackage("address", new DeliveryRegion()));
+        
+        //act
+        List<DirectedPackage> result = (List<DirectedPackage>) instance.getAll();
+        
+        //assert
+        assertEquals(result.size(), 2);
     }
 
     /**
@@ -146,12 +164,21 @@ public class DirectedPackageRepositoryInMemoryTest extends TestCase {
      */
     public void testGetById() {
         System.out.println("getById");
-        int id = 0;
+        
+        //arrange
         DirectedPackageRepositoryInMemory instance = new DirectedPackageRepositoryInMemory();
-        DirectedPackage expResult = null;
-        DirectedPackage result = instance.getById(id);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        instance.packageList.clear();
+        DirectedPackage dirPackage = new DirectedPackage();
+        dirPackage.setId(2);
+        instance.packageList.add(dirPackage);
+        dirPackage = new DirectedPackage();
+        dirPackage.setId(4);
+        instance.packageList.add(dirPackage);
+        
+        //act
+        DirectedPackage result = instance.getById(2);
+        
+        //assert
+        assertEquals(result.getId(), 2);
     }
 }
