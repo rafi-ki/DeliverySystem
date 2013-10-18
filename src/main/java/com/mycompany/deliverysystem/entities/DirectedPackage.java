@@ -12,12 +12,12 @@ public class DirectedPackage {
     
     private int id;
     private String address;
-    private int delivery_region_id;
+    private DeliveryRegion deliveryRegion;
     private boolean delivered;
     
-    public DirectedPackage(String address, int delivery_region_id)
+    public DirectedPackage(String address, DeliveryRegion deliveryRegion)
     {
-        this.delivery_region_id = delivery_region_id;
+        this.deliveryRegion = deliveryRegion;
         this.address = address;
         this.delivered = false;
     }
@@ -39,15 +39,15 @@ public class DirectedPackage {
     /**
      * @return the delivery_region_id
      */
-    public int getDelivery_region_id() {
-        return delivery_region_id;
+    public DeliveryRegion getDelivery_region_id() {
+        return deliveryRegion;
     }
 
     /**
      * @param delivery_region_id the delivery_region_id to set
      */
-    public void setDelivery_region_id(int delivery_region_id) {
-        this.delivery_region_id = delivery_region_id;
+    public void setDeliveryRegion(DeliveryRegion deliveryRegion) {
+        this.deliveryRegion = deliveryRegion;
     }
 
     /**
