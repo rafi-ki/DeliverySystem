@@ -4,14 +4,15 @@
  */
 package com.mycompany.deliverysystem.repositories;
 
+import com.mycompany.deliverysystem.entities.DeliveryRegion;
 import defines.GeoLocation;
 
 /**
  *
  * @author rafael, dominik
  */
-public interface DeliveryRegionRepository<DeliveryRegion> extends Repository{
+public interface DeliveryRegionRepository extends Repository<DeliveryRegion>{
     public DeliveryRegion getByExternalId(int id);
-    public DeliveryRegion getByLocation(GeoLocation location);
-    public DeliveryRegion getClosestByLocation(GeoLocation location);
+    public DeliveryRegion getByLocation(double longitude, double latitude);
+    public DeliveryRegion getClosestByLocation(double longitude, double latitude);
 }
