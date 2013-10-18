@@ -4,17 +4,15 @@
  */
 package com.mycompany.deliverysystem.repositories;
 
+import defines.GeoLocation;
+
 /**
  *
- * @author dominik,rafael
+ * @author dominik, rafael
  */
-public class DirectedPackageRepositoryImpl implements DirectedPackageRepository {
+public class DeliveryRegionRepositoryInMemory implements DeliveryRegionRepository {
 
-    public Iterable getDirectedPackageByRegionId(int region_id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public void setPackageAsDelivered(int delivered_package_id) {
+    public Object getByExternalId(int id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -35,6 +33,14 @@ public class DirectedPackageRepositoryImpl implements DirectedPackageRepository 
     }
 
     public Object getById(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public Object getByLocation(GeoLocation location) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public Object getClosestByLocation(GeoLocation location) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
