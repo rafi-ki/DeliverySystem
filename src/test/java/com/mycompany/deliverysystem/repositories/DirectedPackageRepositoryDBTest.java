@@ -8,7 +8,9 @@ import com.mycompany.deliverysystem.entities.DeliveryRegion;
 import com.mycompany.deliverysystem.entities.DirectedPackage;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import static junit.framework.Assert.assertTrue;
 import junit.framework.TestCase;
 
 /**
@@ -63,9 +65,10 @@ public class DirectedPackageRepositoryDBTest extends TestCase {
     public void testAdd() throws Exception {
         System.out.println("add");
         DirectedPackageRepositoryDB repo = new DirectedPackageRepositoryDB(entityManager);
-        repo.add(new DirectedPackage("address1",new DeliveryRegion()));
+        DeliveryRegion region=new DeliveryRegion(1,1.0,1.0);
+        DirectedPackage pack =new DirectedPackage("address1",region);
+        repo.add(pack);
         
-        fail("The test case is a prototype.");
     }
 
     /**

@@ -6,6 +6,7 @@ package com.mycompany.deliverysystem.repositories;
 
 import com.mycompany.deliverysystem.entities.DirectedPackage;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 
 /**
  *
@@ -37,7 +38,17 @@ public class DirectedPackageRepositoryDB implements DirectedPackageRepository {
     }
 
     public void add(DirectedPackage Object) throws RepositoryException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        EntityTransaction tx= entityManager.getTransaction();
+        try{
+            tx = entityManager.getTransaction();
+            tx.begin();
+            entityManager.persist(Object);
+            tx.commit();
+        }catch (Exception err){
+            if( tx != null )
+                tx.rollback();
+            throw new RepositoryException(err);
+        }
     }
 
     public void update(long id, DirectedPackage Object) throws RepositoryException {
