@@ -9,9 +9,9 @@ package com.mycompany.deliverysystem.repositories;
  * @author rafael, dominik
  */
 public interface Repository<T> {
-    public void add(T Object);
-    public void update(long id, T Object);
-    public void delete(long id);
-    public Iterable<T> getAll();
-    public T getById(long id);
+    public void add(T Object)throws RepositoryException;
+    public void update(long id, T Object)throws RepositoryException;
+    public void delete(long id)throws RepositoryException;
+    public Iterable<T> getAll()throws RepositoryException;
+    public T getById(long id)throws RepositoryException;
 }
