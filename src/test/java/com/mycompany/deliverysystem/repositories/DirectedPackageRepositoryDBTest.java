@@ -29,7 +29,6 @@ public class DirectedPackageRepositoryDBTest extends TestCase {
         super.setUp();
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("deliverysystem");
         entityManager = factory.createEntityManager();
-
     }
     
     @Override
@@ -66,8 +65,7 @@ public class DirectedPackageRepositoryDBTest extends TestCase {
         
         //arrange
         DirectedPackageRepositoryDB repo = new DirectedPackageRepositoryDB(entityManager);
-        DeliveryRegion region = new DeliveryRegion(1,1.0,1.0);
-        DirectedPackage pack = new DirectedPackage("address1",region);
+        DirectedPackage pack = new DirectedPackage();
         long packId = Long.MAX_VALUE;
         pack.setId(packId);
         
@@ -83,10 +81,10 @@ public class DirectedPackageRepositoryDBTest extends TestCase {
                 expResult = p;
         }
         
-        //clean up
-        repo.delete(packId);
-        
         assertEquals(expResult, pack);
+        
+         //clean up
+        repo.delete(packId);
     }
 
     /**
@@ -115,9 +113,6 @@ public class DirectedPackageRepositoryDBTest extends TestCase {
         //act
         repo.delete(packId);
         
-        //clean
-        // nothing to do here
-        
         //assert
         Iterable<DirectedPackage> allPackages = repo.getAll();
         DirectedPackage result = null;
@@ -126,8 +121,10 @@ public class DirectedPackageRepositoryDBTest extends TestCase {
             if (p.getId() == packId)
                 result = p;
         }
-        
         assertNull(result);
+        
+        //clean
+        // nothing to do here
     }
 
     /**
@@ -161,10 +158,10 @@ public class DirectedPackageRepositoryDBTest extends TestCase {
         //act 
         DirectedPackage result = repo.getById(Long.MAX_VALUE);
         
-        //clean up
-        repo.delete(Long.MAX_VALUE);
-        
         //assert
         assertEquals(result, newPackage);
+        
+        //clean up
+        repo.delete(Long.MAX_VALUE);
     }
 }

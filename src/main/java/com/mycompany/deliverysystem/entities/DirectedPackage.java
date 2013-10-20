@@ -24,7 +24,7 @@ public class DirectedPackage implements Serializable{
     private String address;
     private boolean delivered;
     
-    @ManyToOne
+    @ManyToOne (cascade= CascadeType.PERSIST)
     private DeliveryRegion deliveryRegion;
     
     public DirectedPackage(){}
