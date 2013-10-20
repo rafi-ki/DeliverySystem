@@ -12,7 +12,7 @@ import defines.GeoLocation;
  * @author rafael, dominik
  */
 public interface DeliveryRegionRepository extends Repository<DeliveryRegion>{
-    public DeliveryRegion getByExternalId(int id);
-    public DeliveryRegion getByLocation(double longitude, double latitude);
-    public DeliveryRegion getClosestByLocation(double longitude, double latitude);
+    public DeliveryRegion getByExternalId(int id) throws RepositoryException;
+    public DeliveryRegion getByLocation(double longitude, double latitude) throws RepositoryException;
+    public DeliveryRegion getClosestByLocation(double longitude, double latitude) throws RepositoryException;
 }
