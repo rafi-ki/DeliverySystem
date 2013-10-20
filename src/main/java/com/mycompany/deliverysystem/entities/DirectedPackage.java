@@ -5,6 +5,7 @@
 package com.mycompany.deliverysystem.entities;
 
 import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -23,10 +24,10 @@ public class DirectedPackage implements Serializable{
     private String address;
     private boolean delivered;
     
-    @ManyToOne
+    @ManyToOne(cascade=CascadeType.PERSIST)
     private DeliveryRegion deliveryRegion;
     
-    public DirectedPackage(){};
+    public DirectedPackage(){}
     
     public DirectedPackage(String address, DeliveryRegion deliveryRegion)
     {

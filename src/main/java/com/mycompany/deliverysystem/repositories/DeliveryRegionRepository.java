@@ -5,7 +5,6 @@
 package com.mycompany.deliverysystem.repositories;
 
 import com.mycompany.deliverysystem.entities.DeliveryRegion;
-import defines.GeoLocation;
 
 /**
  *
