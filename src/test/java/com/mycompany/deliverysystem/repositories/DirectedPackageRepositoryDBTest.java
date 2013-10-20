@@ -6,11 +6,10 @@ package com.mycompany.deliverysystem.repositories;
 
 import com.mycompany.deliverysystem.entities.DeliveryRegion;
 import com.mycompany.deliverysystem.entities.DirectedPackage;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-import static junit.framework.Assert.assertTrue;
 import junit.framework.TestCase;
 
 /**
@@ -64,10 +63,16 @@ public class DirectedPackageRepositoryDBTest extends TestCase {
      */
     public void testAdd() throws Exception {
         System.out.println("add");
+        
+        //arrange
         DirectedPackageRepositoryDB repo = new DirectedPackageRepositoryDB(entityManager);
-        DeliveryRegion region=new DeliveryRegion(1,1.0,1.0);
-        DirectedPackage pack =new DirectedPackage("address1",region);
+        DeliveryRegion region = new DeliveryRegion(1,1.0,1.0);
+        DirectedPackage pack = new DirectedPackage("address1",region);
+        
+        //act
         repo.add(pack);
+        
+        //assert
         
     }
 
@@ -98,8 +103,14 @@ public class DirectedPackageRepositoryDBTest extends TestCase {
     public void testGetAll() throws Exception {
         System.out.println("getAll");
        
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //arrange
+        DirectedPackageRepositoryDB repo = new DirectedPackageRepositoryDB(entityManager);
+        
+        //act
+        List<DirectedPackage> result = (List<DirectedPackage>) repo.getAll();
+        
+        //assert
+        assertNotNull(result);
     }
 
     /**

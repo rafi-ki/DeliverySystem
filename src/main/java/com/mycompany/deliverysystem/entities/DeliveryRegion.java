@@ -27,7 +27,7 @@ public class DeliveryRegion implements Serializable{
     private double longitude;
     private double latitude;
     
-    @OneToMany (mappedBy="directedPackage",cascade=CascadeType.PERSIST)
+    @OneToMany (mappedBy="DeliveryRegion",cascade=CascadeType.PERSIST)
     private List<DirectedPackage> directedPackage = new ArrayList<DirectedPackage>();
 
     public DeliveryRegion() {

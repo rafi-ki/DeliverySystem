@@ -5,8 +5,10 @@
 package com.mycompany.deliverysystem.repositories;
 
 import com.mycompany.deliverysystem.entities.DirectedPackage;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.Query;
 
 /**
  *
@@ -38,7 +40,7 @@ public class DirectedPackageRepositoryDB implements DirectedPackageRepository {
     }
 
     public void add(DirectedPackage Object) throws RepositoryException {
-        EntityTransaction tx= entityManager.getTransaction();
+        EntityTransaction tx = null;
         try{
             tx = entityManager.getTransaction();
             tx.begin();
@@ -60,7 +62,19 @@ public class DirectedPackageRepositoryDB implements DirectedPackageRepository {
     }
 
     public Iterable<DirectedPackage> getAll() throws RepositoryException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        EntityTransaction tx = null;
+        try{
+            tx = entityManager.getTransaction();
+            tx.begin();
+            Query query = entityManager.createQuery("SELECT pack FROM DirectedPackage pack");
+            List<DirectedPackage> packageList = query.getResultList();
+            tx.commit();
+            return packageList;
+        } catch (Exception ex) {
+             if( tx != null )
+                tx.rollback();
+            throw new RepositoryException(ex);
+        }
     }
 
     public DirectedPackage getById(long id) throws RepositoryException {
