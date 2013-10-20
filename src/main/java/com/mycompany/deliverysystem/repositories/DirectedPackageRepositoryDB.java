@@ -58,7 +58,19 @@ public class DirectedPackageRepositoryDB implements DirectedPackageRepository {
     }
 
     public void delete(long id) throws RepositoryException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        EntityTransaction tx = null;
+        try{
+            tx = entityManager.getTransaction();
+            tx.begin();
+            DirectedPackage toDelete = entityManager.find(DirectedPackage.class, id);
+            entityManager.remove(toDelete);
+            tx.commit();
+        } catch(Exception ex)
+        {
+            if (tx != null)
+                tx.rollback();
+            throw new RepositoryException(ex);
+        }
     }
 
     public Iterable<DirectedPackage> getAll() throws RepositoryException {
@@ -78,8 +90,18 @@ public class DirectedPackageRepositoryDB implements DirectedPackageRepository {
     }
 
     public DirectedPackage getById(long id) throws RepositoryException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        EntityTransaction tx = null;
+        try{
+            tx = entityManager.getTransaction();
+            tx.begin();
+            DirectedPackage result = entityManager.find(DirectedPackage.class, id);
+            tx.commit();
+            return result;
+        } catch (Exception ex)
+        {
+            if (tx != null)
+                tx.rollback();
+            throw new RepositoryException(ex);
+        }
     }
-
-   
 }

@@ -62,18 +62,31 @@ public class DirectedPackageRepositoryDBTest extends TestCase {
      * Test of add method, of class DirectedPackageRepositoryDB.
      */
     public void testAdd() throws Exception {
-        System.out.println("add");
+        System.out.println("add - require getAll(), delete()");
         
         //arrange
         DirectedPackageRepositoryDB repo = new DirectedPackageRepositoryDB(entityManager);
         DeliveryRegion region = new DeliveryRegion(1,1.0,1.0);
         DirectedPackage pack = new DirectedPackage("address1",region);
+        long packId = Long.MAX_VALUE;
+        pack.setId(packId);
         
         //act
         repo.add(pack);
         
         //assert
+        DirectedPackage expResult = null;
+        Iterable<DirectedPackage> allPackages = repo.getAll();
+        for (DirectedPackage p : allPackages)
+        {
+            if (p.getId() == packId)
+                expResult = p;
+        }
         
+        //clean up
+        repo.delete(packId);
+        
+        assertEquals(expResult, pack);
     }
 
     /**
@@ -90,11 +103,31 @@ public class DirectedPackageRepositoryDBTest extends TestCase {
      * Test of delete method, of class DirectedPackageRepositoryDB.
      */
     public void testDelete() throws Exception {
-        System.out.println("delete");
-        long id = 0L;
-     
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("delete - requires getAll(), add()");
+        
+        //arrange
+        long packId = Long.MAX_VALUE;
+        DirectedPackageRepositoryDB repo = new DirectedPackageRepositoryDB(entityManager);
+        DirectedPackage tempPackage = new DirectedPackage();
+        tempPackage.setId(packId);
+        repo.add(tempPackage);
+        
+        //act
+        repo.delete(packId);
+        
+        //clean
+        // nothing to do here
+        
+        //assert
+        Iterable<DirectedPackage> allPackages = repo.getAll();
+        DirectedPackage result = null;
+        for (DirectedPackage p : allPackages)
+        {
+            if (p.getId() == packId)
+                result = p;
+        }
+        
+        assertNull(result);
     }
 
     /**
@@ -117,9 +150,21 @@ public class DirectedPackageRepositoryDBTest extends TestCase {
      * Test of getById method, of class DirectedPackageRepositoryDB.
      */
     public void testGetById() throws Exception {
-        System.out.println("getById");
+        System.out.println("getById - requires add(), delete()");
        
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //arrange
+        DirectedPackageRepositoryDB repo = new DirectedPackageRepositoryDB(entityManager);
+        DirectedPackage newPackage = new DirectedPackage();
+        newPackage.setId(Long.MAX_VALUE);
+        repo.add(newPackage);
+        
+        //act 
+        DirectedPackage result = repo.getById(Long.MAX_VALUE);
+        
+        //clean up
+        repo.delete(Long.MAX_VALUE);
+        
+        //assert
+        assertEquals(result, newPackage);
     }
 }
