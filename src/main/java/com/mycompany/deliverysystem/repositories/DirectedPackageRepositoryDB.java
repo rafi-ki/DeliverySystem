@@ -5,6 +5,7 @@
 package com.mycompany.deliverysystem.repositories;
 
 import com.mycompany.deliverysystem.entities.DirectedPackage;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -32,11 +33,40 @@ public class DirectedPackageRepositoryDB implements DirectedPackageRepository {
     }
     
     public Iterable getDirectedPackageByRegionId(long region_id) throws RepositoryException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        EntityTransaction tx = null;
+        try{
+          tx = entityManager.getTransaction();
+          tx.begin();
+          Query query = entityManager.createQuery("SELECT pack FROM DirectedPackage pack");
+          List<DirectedPackage> packageList = query.getResultList();
+          List<DirectedPackage> result = new ArrayList<DirectedPackage>();
+          for (DirectedPackage p : packageList)
+          {
+              if (p.getDeliveryRegion().getId() == region_id && !p.isDelivered())
+                  result.add(p);
+          }
+          tx.commit();
+          return result;
+        } catch (Exception ex) {
+            if (tx != null)
+                tx.rollback();
+            throw new RepositoryException();
+        }
     }
 
     public void setPackageAsDelivered(long delivered_package_id) throws RepositoryException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        EntityTransaction tx = null;
+        try{
+            tx = entityManager.getTransaction();
+            tx.begin();
+            DirectedPackage updatePackage = entityManager.find(DirectedPackage.class, delivered_package_id);
+            updatePackage.setDelivered(true);
+            tx.commit();
+        } catch (Exception ex) {
+            if (tx != null)
+                tx.rollback();
+            throw new RepositoryException(ex);
+        }
     }
 
     public void add(DirectedPackage Object) throws RepositoryException {
@@ -54,7 +84,21 @@ public class DirectedPackageRepositoryDB implements DirectedPackageRepository {
     }
 
     public void update(long id, DirectedPackage Object) throws RepositoryException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        EntityTransaction tx = null;
+        try{
+            tx = entityManager.getTransaction();
+            tx.begin();
+            DirectedPackage updatePackage = entityManager.find(DirectedPackage.class, id);
+            updatePackage.setAddress(Object.getAddress());
+            updatePackage.setDelivered(Object.isDelivered());
+            updatePackage.setDeliveryRegion(Object.getDeliveryRegion());
+            tx.commit();
+        } catch (Exception ex)
+        {
+            if (tx != null)
+                tx.rollback();
+            throw new RepositoryException(ex);
+        }
     }
 
     public void delete(long id) throws RepositoryException {
