@@ -5,8 +5,10 @@
 package com.mycompany.deliverysystem.repositories;
 
 import com.mycompany.deliverysystem.entities.DeliveryRegion;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.Query;
 
 /**
  *
@@ -21,15 +23,72 @@ public class DeliveryRegionRepositoryDB implements DeliveryRegionRepository{
     }
     
     public DeliveryRegion getByExternalId(int id) throws RepositoryException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        EntityTransaction tx = null;
+        try{
+            tx = entityManager.getTransaction();
+            tx.begin();
+            Query query = entityManager.createQuery("SELECT pack FROM DeliveryRegion pack WHERE pack.external_id=:id");
+            query.setParameter("id", id);
+            DeliveryRegion region = (DeliveryRegion) query.getResultList().get(0);
+            tx.commit();
+            return region;
+        } catch (Exception ex) {
+             if( tx != null )
+                tx.rollback();
+            throw new RepositoryException(ex);
+        }
     }
 
     public DeliveryRegion getByLocation(double longitude, double latitude) throws RepositoryException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        EntityTransaction tx = null;
+        try{
+            tx = entityManager.getTransaction();
+            tx.begin();
+            Query query = entityManager.createQuery("SELECT pack FROM DeliveryRegion pack WHERE pack.longitude=:longitude AND pack.latitude=:latitude");
+            query.setParameter("longitude", longitude);
+            query.setParameter("latitude", latitude);
+            DeliveryRegion region = (DeliveryRegion) query.getResultList().get(0);
+            tx.commit();
+            return region;
+        } catch (Exception ex) {
+             if( tx != null )
+                tx.rollback();
+            throw new RepositoryException(ex);
+        }
+        
     }
 
     public DeliveryRegion getClosestByLocation(double longitude, double latitude) throws RepositoryException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        DeliveryRegion nearest = null;
+        double currentdistance=-1;
+        List<DeliveryRegion> allRegions= (List<DeliveryRegion>) getAll();
+        
+        if(allRegions.isEmpty()){
+            return null;
+        }
+        
+         for (DeliveryRegion tempregion:allRegions){
+            if(nearest!=null)
+            {
+                double deltaLong = Math.abs(tempregion.getLongitude()-longitude);
+                double deltaLat = Math.abs(tempregion.getLatitude()-latitude);
+                double tempdistance=Math.sqrt(deltaLong*deltaLong+deltaLat*deltaLat);
+                
+                if(tempdistance<currentdistance){
+                    nearest=tempregion;
+                    currentdistance=tempdistance;
+                }
+            }
+            else{
+                nearest=tempregion;
+                
+                double deltaLong = Math.abs(tempregion.getLongitude()-longitude);
+                double deltaLat = Math.abs(tempregion.getLatitude()-latitude);
+                currentdistance=Math.sqrt(deltaLong*deltaLong+deltaLat*deltaLat);
+            }
+        }
+        
+        return nearest;
     }
 
     public void add(DeliveryRegion Object) throws RepositoryException {
@@ -47,7 +106,21 @@ public class DeliveryRegionRepositoryDB implements DeliveryRegionRepository{
     }
 
     public void update(long id, DeliveryRegion Object) throws RepositoryException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        EntityTransaction tx = null;
+        try{
+            tx = entityManager.getTransaction();
+            tx.begin();
+            DeliveryRegion update = entityManager.find(DeliveryRegion.class, id);
+            update.setExternal_id(Object.getExternal_id());
+            update.setLatitude(Object.getLatitude());
+            update.setLongitude(Object.getLongitude());
+            update.setDirectedPackage(Object.getDirectedPackage());
+            tx.commit();
+        } catch (Exception ex) {
+            if (tx != null)
+                tx.rollback();
+            throw new RepositoryException(ex);
+        }
     }
 
     public void delete(long id) throws RepositoryException {
@@ -66,11 +139,35 @@ public class DeliveryRegionRepositoryDB implements DeliveryRegionRepository{
     }
 
     public Iterable<DeliveryRegion> getAll() throws RepositoryException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        EntityTransaction tx = null;
+        try{
+            tx = entityManager.getTransaction();
+            tx.begin();
+            Query query = entityManager.createQuery("SELECT pack FROM DeliveryRegion pack");
+            List<DeliveryRegion> regionList = query.getResultList();
+            tx.commit();
+            return regionList;
+        } catch (Exception ex) {
+             if( tx != null )
+                tx.rollback();
+            throw new RepositoryException(ex);
+        }
     }
 
     public DeliveryRegion getById(long id) throws RepositoryException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       DeliveryRegion result=null;
+      EntityTransaction tx = null;
+        try{
+            tx = entityManager.getTransaction();
+            tx.begin();
+            result=entityManager.find(DeliveryRegion.class, id);
+            tx.commit();
+        } catch (Exception ex) {
+            if (tx != null)
+                tx.rollback();
+            throw new RepositoryException(ex);
+        }
+        return result;
     }
     
 }

@@ -5,6 +5,7 @@
 package com.mycompany.deliverysystem.repositories;
 
 import com.mycompany.deliverysystem.entities.DeliveryRegion;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -40,14 +41,20 @@ public class DeliveryRegionRepositoryDBTest extends TestCase {
      * Test of getByExternalId method, of class DeliveryRegionRepositoryDB.
      */
     public void testGetByExternalId() throws Exception {
-        System.out.println("getByExternalId");
-        int id = 0;
+        //arrange
+        DeliveryRegion object =new DeliveryRegion(555,2.0,4.0);
+        object.setId(Long.MAX_VALUE);
+        TestMethod_Add(object);
         DeliveryRegionRepositoryDB instance = new DeliveryRegionRepositoryDB(entityManager);
-        DeliveryRegion expResult = null;
-        DeliveryRegion result = instance.getByExternalId(id);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        //act
+        DeliveryRegion result = instance.getByExternalId(555);
+        
+        //clean up
+        TestMethod_Remove(object);
+        
+        //assert
+        assertEquals(object, result);
     }
 
     /**
@@ -55,14 +62,22 @@ public class DeliveryRegionRepositoryDBTest extends TestCase {
      */
     public void testGetByLocation() throws Exception {
         System.out.println("getByLocation");
-        double longitude = 0.0;
-        double latitude = 0.0;
+        //arrange
+        DeliveryRegion object =new DeliveryRegion(555,2.0,4.0);
+        object.setId(Long.MAX_VALUE);
+        TestMethod_Add(object);
         DeliveryRegionRepositoryDB instance = new DeliveryRegionRepositoryDB(entityManager);
-        DeliveryRegion expResult = null;
-        DeliveryRegion result = instance.getByLocation(longitude, latitude);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        //act
+        DeliveryRegion result = instance.getByLocation(2.0, 4.0);
+        
+        //clean up
+        TestMethod_Remove(object);
+        
+        //assert
+        assertEquals(object, result);
+        
+        
     }
 
     /**
@@ -70,14 +85,30 @@ public class DeliveryRegionRepositoryDBTest extends TestCase {
      */
     public void testGetClosestByLocation() throws Exception {
         System.out.println("getClosestByLocation");
-        double longitude = 0.0;
-        double latitude = 0.0;
+       //arrange
+        DeliveryRegion object =new DeliveryRegion(111,2.0,4.0);
+        object.setId(Long.MAX_VALUE);
+        TestMethod_Add(object);
+        
+        DeliveryRegion expResult =new DeliveryRegion(2,5.0,5.0);
+        expResult.setId(Long.MAX_VALUE-1);
+        TestMethod_Add(expResult);
+        
+        object =new DeliveryRegion(3,0.0,0.0);
+        object.setId(Long.MAX_VALUE-2);
+        TestMethod_Add(object);
         DeliveryRegionRepositoryDB instance = new DeliveryRegionRepositoryDB(entityManager);
-        DeliveryRegion expResult = null;
-        DeliveryRegion result = instance.getClosestByLocation(longitude, latitude);
+        
+        //act
+        DeliveryRegion result = instance.getClosestByLocation(4.5, 5.6);
+        
+        //clean up
+        TestMethod_RemoveById(Long.MAX_VALUE);
+        TestMethod_RemoveById(Long.MAX_VALUE-1);
+        TestMethod_RemoveById(Long.MAX_VALUE-2);
+        
+        //assert
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -93,27 +124,17 @@ public class DeliveryRegionRepositoryDBTest extends TestCase {
         //act
         instance.add(Object);
         
+        DeliveryRegion result=TestMethod_getById(Object.getId());
+        //clean up
+        TestMethod_Remove(Object);
+        
         //assert
-        DeliveryRegion result=null;
-        EntityTransaction tx = null;
-        try{
-            tx = entityManager.getTransaction();
-            tx.begin();
-            result = entityManager.find(DeliveryRegion.class, Object.getId());
-            tx.commit();
-        } catch (Exception ex) {
-            if (tx != null)
-                tx.rollback();
-            fail("Excepion at getting added object from database!");
-            throw new RepositoryException(ex);
-        }
         assertNotNull(result);
         assertEquals(333, result.getExternal_id());
         assertEquals(3.33,result.getLongitude());
         assertEquals(5.55,result.getLatitude());
         
-        //clean up
-        TestMethod_Remove(Object);
+        
     }
 
     /**
@@ -121,12 +142,27 @@ public class DeliveryRegionRepositoryDBTest extends TestCase {
      */
     public void testUpdate() throws Exception {
         System.out.println("update");
-        long id = 0L;
-        DeliveryRegion Object = null;
+        
+        //arrange
+        DeliveryRegion Object = new DeliveryRegion(333, 3.33, 5.55);
+        Object.setId(Long.MAX_VALUE);
+        TestMethod_Add(Object);
+        Object= new DeliveryRegion(888,7,9);
         DeliveryRegionRepositoryDB instance = new DeliveryRegionRepositoryDB(entityManager);
-        instance.update(id, Object);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //act
+        instance.update(Long.MAX_VALUE, Object);
+        DeliveryRegion result=TestMethod_getById(Long.MAX_VALUE);
+        //clean up
+        TestMethod_RemoveById(Long.MAX_VALUE);
+        
+        //assert
+        
+        assertNotNull(result);
+        assertEquals(888, result.getExternal_id());
+        assertEquals(7.0, result.getLongitude());
+        assertEquals(9.0, result.getLatitude());
+        
+        
     }
 
     /**
@@ -144,18 +180,8 @@ public class DeliveryRegionRepositoryDBTest extends TestCase {
         instance.delete(Long.MAX_VALUE);
         
         //assert
-        DeliveryRegion result=null;
-        EntityTransaction tx = null;
-        try{
-            tx = entityManager.getTransaction();
-            tx.begin();
-            result=entityManager.find(DeliveryRegion.class, Long.MAX_VALUE);
-            tx.commit();
-        } catch (Exception ex) {
-            if (tx != null)
-                tx.rollback();
-            throw new RepositoryException(ex);
-        }
+        DeliveryRegion result=TestMethod_getById(Long.MAX_VALUE);
+        
         assertNull(result);
     }
 
@@ -164,12 +190,23 @@ public class DeliveryRegionRepositoryDBTest extends TestCase {
      */
     public void testGetAll() throws Exception {
         System.out.println("getAll");
+        //arrange
+        DeliveryRegion object =new DeliveryRegion(1,2.0,4.0);
+        object.setId(Long.MAX_VALUE);
+        TestMethod_Add(object);
         DeliveryRegionRepositoryDB instance = new DeliveryRegionRepositoryDB(entityManager);
-        Iterable expResult = null;
-        Iterable result = instance.getAll();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        //act
+        List<DeliveryRegion> result = (List<DeliveryRegion>) instance.getAll();
+        
+        //clean up
+        TestMethod_Remove(object);
+        //assert
+        assertNotNull(result);
+        assertFalse(result.isEmpty());
+        assertTrue(result.contains(object));
+        
+        
     }
 
     /**
@@ -177,13 +214,19 @@ public class DeliveryRegionRepositoryDBTest extends TestCase {
      */
     public void testGetById() throws Exception {
         System.out.println("getById");
-        long id = 0L;
+        //arrange
+        DeliveryRegion object =new DeliveryRegion(1,2.0,4.0);
+        object.setId(Long.MAX_VALUE);
+        TestMethod_Add(object);
         DeliveryRegionRepositoryDB instance = new DeliveryRegionRepositoryDB(entityManager);
-        DeliveryRegion expResult = null;
-        DeliveryRegion result = instance.getById(id);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        //getresult and clean up
+        DeliveryRegion result = instance.getById(object.getId());
+        TestMethod_Remove(object);
+        
+        //assert
+        assertEquals(object, result);
+        
     }
     
   private void TestMethod_Remove(DeliveryRegion Object)throws RepositoryException{
@@ -211,5 +254,35 @@ public class DeliveryRegionRepositoryDBTest extends TestCase {
                 tx.rollback();
             throw new RepositoryException(ex);
         }
+  }
+  
+  private void TestMethod_RemoveById(long id)throws RepositoryException{
+      EntityTransaction tx = null;
+      try{
+            tx = entityManager.getTransaction();
+            tx.begin();
+            DeliveryRegion Object = entityManager.find(DeliveryRegion.class, id);
+            entityManager.remove(Object);
+            tx.commit();
+        } catch (Exception ex) {
+            if (tx != null)
+                tx.rollback();
+            throw new RepositoryException(ex);
+        }
+  }
+  private DeliveryRegion TestMethod_getById(long id)throws RepositoryException{
+      DeliveryRegion result=null;
+      EntityTransaction tx = null;
+        try{
+            tx = entityManager.getTransaction();
+            tx.begin();
+            result=entityManager.find(DeliveryRegion.class, id);
+            tx.commit();
+        } catch (Exception ex) {
+            if (tx != null)
+                tx.rollback();
+            throw new RepositoryException(ex);
+        }
+        return result;
   }
 }
