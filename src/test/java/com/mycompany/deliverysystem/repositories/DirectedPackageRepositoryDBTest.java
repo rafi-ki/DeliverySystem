@@ -11,6 +11,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
@@ -40,19 +41,81 @@ public class DirectedPackageRepositoryDBTest extends TestCase {
         super.tearDown();
         entityManager.close();
     }
+    
+    private void testmethod_add(DirectedPackage newPackage)
+    {
+        EntityTransaction tx = null;
+        try{
+            tx = entityManager.getTransaction();
+            tx.begin();
+            entityManager.persist(newPackage);
+            tx.commit();
+        } catch (Exception err){
+            if( tx != null )
+                tx.rollback();
+        }
+    }
+    
+    private void testmethod_delete(long id)
+    {
+         EntityTransaction tx = null;
+        try{
+            tx = entityManager.getTransaction();
+            tx.begin();
+            DirectedPackage toDelete = entityManager.find(DirectedPackage.class, id);
+            entityManager.remove(toDelete);
+            tx.commit();
+        } catch(Exception ex) {
+            if (tx != null)
+                tx.rollback();
+        }
+    }
+    
+    private Iterable<DirectedPackage> testmethod_getAll()
+    {
+        EntityTransaction tx = null;
+        try{
+            tx = entityManager.getTransaction();
+            tx.begin();
+            Query query = entityManager.createQuery("SELECT pack FROM DirectedPackage pack");
+            List<DirectedPackage> packageList = query.getResultList();
+            tx.commit();
+            return packageList;
+        } catch (Exception ex) {
+             if( tx != null )
+                tx.rollback();
+             return null;
+        }
+    }
+    
+    private DirectedPackage testmethod_getById(long id)
+    {
+        EntityTransaction tx = null;
+        try{
+            tx = entityManager.getTransaction();
+            tx.begin();
+            DirectedPackage result = entityManager.find(DirectedPackage.class, id);
+            tx.commit();
+            return result;
+        } catch (Exception ex) {
+            if (tx != null)
+                tx.rollback();
+            return null;
+        }
+    }
 
     /**
      * Test of getDirectedPackageByRegionId method, of class DirectedPackageRepositoryDB.
      */
     public void testGetDirectedPackageByRegionId() throws Exception {
-        System.out.println("getDirectedPackageByRegionId - requires add(), delete()");
+        System.out.println("getDirectedPackageByRegionId ");
         
         //arrange
         DirectedPackageRepositoryDB repo = new DirectedPackageRepositoryDB(entityManager);
         DeliveryRegion region = new DeliveryRegion();
         region.setId(Long.MAX_VALUE);
         DirectedPackage newPackage = new DirectedPackage("address", region);
-        repo.add(newPackage);
+        this.testmethod_add(newPackage);
         
         //act
         Iterable<DirectedPackage> result = repo.getDirectedPackageByRegionId(region.getId());
@@ -63,7 +126,7 @@ public class DirectedPackageRepositoryDBTest extends TestCase {
             resultCount++;
         
         //clean up
-        repo.delete(newPackage.getId());
+        this.testmethod_delete(newPackage.getId());
         EntityTransaction tx = entityManager.getTransaction();
         tx.begin();
         entityManager.remove(region);
@@ -77,22 +140,22 @@ public class DirectedPackageRepositoryDBTest extends TestCase {
      * Test of setPackageAsDelivered method, of class DirectedPackageRepositoryDB.
      */
     public void testSetPackageAsDelivered() throws Exception {
-        System.out.println("setPackageAsDelivered - requires getById(), add(), delete()");
+        System.out.println("setPackageAsDelivered");
       
         //arrange
         DirectedPackageRepositoryDB repo = new DirectedPackageRepositoryDB(entityManager);
         DirectedPackage newPackage = new DirectedPackage();
         newPackage.setId(Long.MAX_VALUE);
-        repo.add(newPackage);
+        this.testmethod_add(newPackage);
         
         //act
         repo.setPackageAsDelivered(newPackage.getId());
         
         //achieve necessary
-        DirectedPackage result = repo.getById(newPackage.getId());
+        DirectedPackage result = this.testmethod_getById(newPackage.getId());
         
         //clean up
-        repo.delete(newPackage.getId());
+        this.testmethod_delete(newPackage.getId());
         
         //assert
         assertTrue(result.isDelivered());
@@ -102,7 +165,7 @@ public class DirectedPackageRepositoryDBTest extends TestCase {
      * Test of add method, of class DirectedPackageRepositoryDB.
      */
     public void testAdd() throws Exception {
-        System.out.println("add - require getAll(), delete()");
+        System.out.println("add");
         
         //arrange
         DirectedPackageRepositoryDB repo = new DirectedPackageRepositoryDB(entityManager);
@@ -115,7 +178,7 @@ public class DirectedPackageRepositoryDBTest extends TestCase {
         
         //achieve necessary
         DirectedPackage expResult = null;
-        Iterable<DirectedPackage> allPackages = repo.getAll();
+        Iterable<DirectedPackage> allPackages = this.testmethod_getAll();
         for (DirectedPackage p : allPackages)
         {
             if (p.getId() == packId)
@@ -123,7 +186,7 @@ public class DirectedPackageRepositoryDBTest extends TestCase {
         }
         
          //clean up
-        repo.delete(packId);
+        this.testmethod_delete(packId);
         
         //assert
         assertEquals(expResult, pack);
@@ -133,14 +196,14 @@ public class DirectedPackageRepositoryDBTest extends TestCase {
      * Test of update method, of class DirectedPackageRepositoryDB.
      */
     public void testUpdate() throws Exception {
-        System.out.println("update - requires getById(), add(), delete()");
+        System.out.println("update");
         
         //arrange
         String updatedAddress = "update address";
         DirectedPackageRepositoryDB repo = new DirectedPackageRepositoryDB(entityManager);
         DirectedPackage newPackage = new DirectedPackage();
         newPackage.setId(Long.MAX_VALUE);
-        repo.add(newPackage);
+        this.testmethod_add(newPackage);
         DirectedPackage updatePackage = new DirectedPackage();
         updatePackage.setAddress(updatedAddress);
         
@@ -148,10 +211,10 @@ public class DirectedPackageRepositoryDBTest extends TestCase {
         repo.update(newPackage.getId(), updatePackage);
         
         //achieve necessary
-        DirectedPackage result = repo.getById(newPackage.getId());
+        DirectedPackage result = this.testmethod_getById(newPackage.getId());
         
         //clean up
-        repo.delete(newPackage.getId());
+        this.testmethod_delete(newPackage.getId());
         
         //assert
         assertEquals(result.getAddress(), updatedAddress);
@@ -161,20 +224,20 @@ public class DirectedPackageRepositoryDBTest extends TestCase {
      * Test of delete method, of class DirectedPackageRepositoryDB.
      */
     public void testDelete() throws Exception {
-        System.out.println("delete - requires getAll(), add()");
+        System.out.println("delete");
         
         //arrange
         long packId = Long.MAX_VALUE;
         DirectedPackageRepositoryDB repo = new DirectedPackageRepositoryDB(entityManager);
         DirectedPackage tempPackage = new DirectedPackage();
         tempPackage.setId(packId);
-        repo.add(tempPackage);
+        this.testmethod_add(tempPackage);
         
         //act
         repo.delete(packId);
         
         //achieve necessary
-        Iterable<DirectedPackage> allPackages = repo.getAll();
+        Iterable<DirectedPackage> allPackages = this.testmethod_getAll();
         DirectedPackage result = null;
         for (DirectedPackage p : allPackages)
         {
@@ -209,13 +272,13 @@ public class DirectedPackageRepositoryDBTest extends TestCase {
      * Test of getById method, of class DirectedPackageRepositoryDB.
      */
     public void testGetById() throws Exception {
-        System.out.println("getById - requires add(), delete()");
+        System.out.println("getById");
        
         //arrange
         DirectedPackageRepositoryDB repo = new DirectedPackageRepositoryDB(entityManager);
         DirectedPackage newPackage = new DirectedPackage();
         newPackage.setId(Long.MAX_VALUE);
-        repo.add(newPackage);
+        this.testmethod_add(newPackage);
         
         //act 
         DirectedPackage result = repo.getById(Long.MAX_VALUE);
@@ -224,7 +287,7 @@ public class DirectedPackageRepositoryDBTest extends TestCase {
         // nothing to do here
         
         //clean up
-        repo.delete(Long.MAX_VALUE);
+        this.testmethod_delete(Long.MAX_VALUE);
         
         //assert
         assertEquals(result, newPackage);
