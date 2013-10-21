@@ -93,8 +93,7 @@ public class DirectedPackageRepositoryDB implements DirectedPackageRepository {
             updatePackage.setDelivered(Object.isDelivered());
             updatePackage.setDeliveryRegion(Object.getDeliveryRegion());
             tx.commit();
-        } catch (Exception ex)
-        {
+        } catch (Exception ex) {
             if (tx != null)
                 tx.rollback();
             throw new RepositoryException(ex);
@@ -141,8 +140,7 @@ public class DirectedPackageRepositoryDB implements DirectedPackageRepository {
             DirectedPackage result = entityManager.find(DirectedPackage.class, id);
             tx.commit();
             return result;
-        } catch (Exception ex)
-        {
+        } catch (Exception ex) {
             if (tx != null)
                 tx.rollback();
             throw new RepositoryException(ex);
