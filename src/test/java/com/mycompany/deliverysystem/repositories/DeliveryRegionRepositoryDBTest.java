@@ -134,11 +134,29 @@ public class DeliveryRegionRepositoryDBTest extends TestCase {
      */
     public void testDelete() throws Exception {
         System.out.println("delete");
-        long id = 0L;
+        //arrange
+        DeliveryRegion object =new DeliveryRegion(1,2,4);
+        object.setId(Long.MAX_VALUE);
+        TestMethod_Add(object);
         DeliveryRegionRepositoryDB instance = new DeliveryRegionRepositoryDB(entityManager);
-        instance.delete(id);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        //act
+        instance.delete(Long.MAX_VALUE);
+        
+        //assert
+        DeliveryRegion result=null;
+        EntityTransaction tx = null;
+        try{
+            tx = entityManager.getTransaction();
+            tx.begin();
+            result=entityManager.find(DeliveryRegion.class, Long.MAX_VALUE);
+            tx.commit();
+        } catch (Exception ex) {
+            if (tx != null)
+                tx.rollback();
+            throw new RepositoryException(ex);
+        }
+        assertNull(result);
     }
 
     /**
@@ -174,6 +192,19 @@ public class DeliveryRegionRepositoryDBTest extends TestCase {
             tx = entityManager.getTransaction();
             tx.begin();
             entityManager.remove(Object);
+            tx.commit();
+        } catch (Exception ex) {
+            if (tx != null)
+                tx.rollback();
+            throw new RepositoryException(ex);
+        }
+  }
+  private void TestMethod_Add(DeliveryRegion Object)throws RepositoryException{
+      EntityTransaction tx = null;
+      try{
+            tx = entityManager.getTransaction();
+            tx.begin();
+            entityManager.persist(Object);
             tx.commit();
         } catch (Exception ex) {
             if (tx != null)
