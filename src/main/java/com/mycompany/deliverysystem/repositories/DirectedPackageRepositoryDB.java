@@ -37,14 +37,9 @@ public class DirectedPackageRepositoryDB implements DirectedPackageRepository {
         try{
           tx = entityManager.getTransaction();
           tx.begin();
-          Query query = entityManager.createQuery("SELECT pack FROM DirectedPackage pack");
-          List<DirectedPackage> packageList = query.getResultList();
-          List<DirectedPackage> result = new ArrayList<DirectedPackage>();
-          for (DirectedPackage p : packageList)
-          {
-              if (p.getDeliveryRegion().getId() == region_id && !p.isDelivered())
-                  result.add(p);
-          }
+          Query query = entityManager.createQuery("SELECT pack FROM DirectedPackage pack WHERE pack.deliveryRegion.id = :regionId");
+          query.setParameter("regionId", region_id);
+          List<DirectedPackage> result = query.getResultList();
           tx.commit();
           return result;
         } catch (Exception ex) {
