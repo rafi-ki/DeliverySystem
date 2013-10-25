@@ -59,6 +59,7 @@ public class DirectedPackageRepositoryDB implements DirectedPackageRepository {
             tx.begin();
             DirectedPackage updatePackage = entityManager.find(DirectedPackage.class, delivered_package_id);
             updatePackage.setDelivered(true);
+            LOGGER.log(Level.INFO, "set DirectedPackage with id <{0}> successfully as delivered", delivered_package_id);
             tx.commit();
         } catch (Exception ex) {
             if (tx != null)
