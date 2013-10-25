@@ -229,6 +229,27 @@ public class DeliveryRegionRepositoryDBTest extends TestCase {
         
     }
     
+    public void testExceptionInAdd(){
+    
+            System.out.println("ExceptionInAdd");
+            
+            //arrange
+            boolean exception=false;
+            DeliveryRegionRepositoryDB instance = new DeliveryRegionRepositoryDB(entityManager);
+            
+            //act 
+            try{
+                instance.add(null);
+            }catch (Exception ex){
+                //assert
+                exception=true;
+            }
+            if(!exception){
+                fail("No Exception was thrown!");
+            }
+            
+    }
+    
   private void TestMethod_Remove(DeliveryRegion Object)throws RepositoryException{
       EntityTransaction tx = null;
       try{
@@ -285,4 +306,5 @@ public class DeliveryRegionRepositoryDBTest extends TestCase {
         }
         return result;
   }
+  
 }

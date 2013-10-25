@@ -1,11 +1,9 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.mycompany.deliverysystem.repositories;
 
 import com.mycompany.deliverysystem.entities.DeliveryRegion;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
@@ -17,7 +15,7 @@ import javax.persistence.Query;
 public class DeliveryRegionRepositoryDB implements DeliveryRegionRepository{
     
     private EntityManager entityManager;
-    
+    private final static Logger LOGGER = Logger.getLogger(DeliveryRegionRepositoryDB.class.getName());
     public DeliveryRegionRepositoryDB (EntityManager entMan){
         this.entityManager=entMan;
     }
@@ -35,6 +33,7 @@ public class DeliveryRegionRepositoryDB implements DeliveryRegionRepository{
         } catch (Exception ex) {
              if( tx != null )
                 tx.rollback();
+             LOGGER.log(Level.SEVERE, "Error in getByExternalId with id ="+id, ex);
             throw new RepositoryException(ex);
         }
     }
@@ -53,6 +52,7 @@ public class DeliveryRegionRepositoryDB implements DeliveryRegionRepository{
         } catch (Exception ex) {
              if( tx != null )
                 tx.rollback();
+             LOGGER.log(Level.SEVERE, "Error in getByLocation with longitude ="+longitude+" and latitude="+latitude, ex);
             throw new RepositoryException(ex);
         }
         
@@ -101,6 +101,7 @@ public class DeliveryRegionRepositoryDB implements DeliveryRegionRepository{
         } catch (Exception ex) {
             if (tx != null)
                 tx.rollback();
+            LOGGER.log(Level.SEVERE, "Error in add()", ex);
             throw new RepositoryException(ex);
         }
     }
@@ -119,6 +120,7 @@ public class DeliveryRegionRepositoryDB implements DeliveryRegionRepository{
         } catch (Exception ex) {
             if (tx != null)
                 tx.rollback();
+            LOGGER.log(Level.SEVERE, "Error in update() with id ="+id, ex);
             throw new RepositoryException(ex);
         }
     }
@@ -134,6 +136,7 @@ public class DeliveryRegionRepositoryDB implements DeliveryRegionRepository{
         } catch (Exception ex) {
             if (tx != null)
                 tx.rollback();
+            LOGGER.log(Level.SEVERE, "Error in delete() with id ="+id, ex);
             throw new RepositoryException(ex);
         }
     }
@@ -150,6 +153,7 @@ public class DeliveryRegionRepositoryDB implements DeliveryRegionRepository{
         } catch (Exception ex) {
              if( tx != null )
                 tx.rollback();
+             LOGGER.log(Level.SEVERE, "Error in getAll", ex);
             throw new RepositoryException(ex);
         }
     }
@@ -165,6 +169,7 @@ public class DeliveryRegionRepositoryDB implements DeliveryRegionRepository{
         } catch (Exception ex) {
             if (tx != null)
                 tx.rollback();
+            LOGGER.log(Level.SEVERE, "Error in getById with id ="+id, ex);
             throw new RepositoryException(ex);
         }
         return result;
