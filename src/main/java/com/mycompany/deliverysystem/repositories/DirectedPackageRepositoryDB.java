@@ -5,8 +5,9 @@
 package com.mycompany.deliverysystem.repositories;
 
 import com.mycompany.deliverysystem.entities.DirectedPackage;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
@@ -17,6 +18,7 @@ import javax.persistence.Query;
  */
 public class DirectedPackageRepositoryDB implements DirectedPackageRepository {
 
+    private final static Logger LOGGER = Logger.getLogger(DirectedPackageRepositoryDB.class.getName()); 
     private EntityManager entityManager;
     
     public DirectedPackageRepositoryDB(EntityManager entMan){
@@ -45,7 +47,8 @@ public class DirectedPackageRepositoryDB implements DirectedPackageRepository {
         } catch (Exception ex) {
             if (tx != null)
                 tx.rollback();
-            throw new RepositoryException();
+            LOGGER.log(Level.SEVERE, "Could not get directed packges by region id <" + region_id + ">", ex);
+            throw new RepositoryException(ex);
         }
     }
 
@@ -60,6 +63,7 @@ public class DirectedPackageRepositoryDB implements DirectedPackageRepository {
         } catch (Exception ex) {
             if (tx != null)
                 tx.rollback();
+            LOGGER.log(Level.SEVERE, "Could not set directed packge with id <" + delivered_package_id +"> as deliverd", ex);
             throw new RepositoryException(ex);
         }
     }
@@ -70,11 +74,13 @@ public class DirectedPackageRepositoryDB implements DirectedPackageRepository {
             tx = entityManager.getTransaction();
             tx.begin();
             entityManager.persist(Object);
+            LOGGER.log(Level.INFO, "added DirectedPackage successfully");
             tx.commit();
-        }catch (Exception err){
+        }catch (Exception ex){
             if( tx != null )
                 tx.rollback();
-            throw new RepositoryException(err);
+            LOGGER.log(Level.SEVERE, "Could not add directed packge", ex);
+            throw new RepositoryException(ex);
         }
     }
 
@@ -87,10 +93,12 @@ public class DirectedPackageRepositoryDB implements DirectedPackageRepository {
             updatePackage.setAddress(Object.getAddress());
             updatePackage.setDelivered(Object.isDelivered());
             updatePackage.setDeliveryRegion(Object.getDeliveryRegion());
+            LOGGER.log(Level.INFO, "updated DirectedPackage with id <{0}> successfully", id);
             tx.commit();
         } catch (Exception ex) {
             if (tx != null)
                 tx.rollback();
+            LOGGER.log(Level.SEVERE, "Could not update directed packge with id <" + id + ">", ex);
             throw new RepositoryException(ex);
         }
     }
@@ -103,10 +111,12 @@ public class DirectedPackageRepositoryDB implements DirectedPackageRepository {
             DirectedPackage toDelete = entityManager.find(DirectedPackage.class, id);
             entityManager.remove(toDelete);
             tx.commit();
+            LOGGER.log(Level.INFO, "deleted DirectedPackage with id <{0}> successfully", id);
         } catch(Exception ex)
         {
             if (tx != null)
                 tx.rollback();
+            LOGGER.log(Level.SEVERE, "Could not delete directed packge with id <" + id + ">", ex);
             throw new RepositoryException(ex);
         }
     }
@@ -123,6 +133,7 @@ public class DirectedPackageRepositoryDB implements DirectedPackageRepository {
         } catch (Exception ex) {
              if( tx != null )
                 tx.rollback();
+             LOGGER.log(Level.SEVERE, "Error getting all packages", ex);
             throw new RepositoryException(ex);
         }
     }
@@ -138,6 +149,7 @@ public class DirectedPackageRepositoryDB implements DirectedPackageRepository {
         } catch (Exception ex) {
             if (tx != null)
                 tx.rollback();
+            LOGGER.log(Level.SEVERE, "Could not get directed packge by Id <" + id + ">", ex);
             throw new RepositoryException(ex);
         }
     }
