@@ -234,19 +234,18 @@ public class DeliveryRegionRepositoryDBTest extends TestCase {
             System.out.println("ExceptionInAdd");
             
             //arrange
-            boolean exception=false;
+       
             DeliveryRegionRepositoryDB instance = new DeliveryRegionRepositoryDB(entityManager);
             
             //act 
             try{
                 instance.add(null);
+                fail("No Exception was thrown!");
             }catch (Exception ex){
                 //assert
-                exception=true;
+                
             }
-            if(!exception){
-                fail("No Exception was thrown!");
-            }
+        
             
     }
     
