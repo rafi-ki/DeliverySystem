@@ -39,7 +39,7 @@ public class DirectedPackageRepositoryInMemoryTest extends TestCase {
         //arrange 
         DirectedPackageRepositoryInMemory instance = new DirectedPackageRepositoryInMemory();
         instance.packageList.clear();
-        DeliveryRegion region = new DeliveryRegion(1, 0, 0);
+        DeliveryRegion region = new DeliveryRegion("1", 0, 0);
         region.setId(region_id);
         DirectedPackage dirPackage = new DirectedPackage("bla", region);
         dirPackage.setId(packageId);

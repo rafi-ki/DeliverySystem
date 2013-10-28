@@ -20,7 +20,7 @@ public class DeliveryRegionRepositoryDB implements DeliveryRegionRepository{
         this.entityManager=entMan;
     }
     
-    public DeliveryRegion getByExternalId(int id) throws RepositoryException {
+    public DeliveryRegion getByExternalId(String id) throws RepositoryException {
         EntityTransaction tx = null;
         try{
             tx = entityManager.getTransaction();

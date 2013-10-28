@@ -23,7 +23,7 @@ public class DeliveryRegion implements Serializable{
     @GeneratedValue
     private long id;
     
-    private int external_id;
+    private String external_id;
     private double longitude;
     private double latitude;
     
@@ -33,7 +33,7 @@ public class DeliveryRegion implements Serializable{
     public DeliveryRegion() {
     }
     
-    public DeliveryRegion(int external_id, double longitude, double latitude)
+    public DeliveryRegion(String external_id, double longitude, double latitude)
     {
         this.external_id = external_id;
         this.longitude = longitude;
@@ -57,14 +57,14 @@ public class DeliveryRegion implements Serializable{
     /**
      * @return the external_id
      */
-    public int getExternal_id() {
+    public String getExternal_id() {
         return external_id;
     }
 
     /**
      * @param external_id the external_id to set
      */
-    public void setExternal_id(int external_id) {
+    public void setExternal_id(String external_id) {
         this.external_id = external_id;
     }
 

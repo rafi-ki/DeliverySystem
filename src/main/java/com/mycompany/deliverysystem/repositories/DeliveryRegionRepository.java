@@ -11,7 +11,7 @@ import com.mycompany.deliverysystem.entities.DeliveryRegion;
  * @author rafael, dominik
  */
 public interface DeliveryRegionRepository extends Repository<DeliveryRegion>{
-    public DeliveryRegion getByExternalId(int id) throws RepositoryException;
+    public DeliveryRegion getByExternalId(String id) throws RepositoryException;
     public DeliveryRegion getByLocation(double longitude, double latitude) throws RepositoryException;
     public DeliveryRegion getClosestByLocation(double longitude, double latitude) throws RepositoryException;
 }

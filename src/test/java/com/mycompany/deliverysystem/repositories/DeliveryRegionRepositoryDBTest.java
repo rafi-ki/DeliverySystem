@@ -42,13 +42,13 @@ public class DeliveryRegionRepositoryDBTest extends TestCase {
      */
     public void testGetByExternalId() throws Exception {
         //arrange
-        DeliveryRegion object =new DeliveryRegion(555,2.0,4.0);
+        DeliveryRegion object =new DeliveryRegion("555",2.0,4.0);
         object.setId(Long.MAX_VALUE);
         TestMethod_Add(object);
         DeliveryRegionRepositoryDB instance = new DeliveryRegionRepositoryDB(entityManager);
         
         //act
-        DeliveryRegion result = instance.getByExternalId(555);
+        DeliveryRegion result = instance.getByExternalId("555");
         
         //clean up
         TestMethod_Remove(object);
@@ -63,7 +63,7 @@ public class DeliveryRegionRepositoryDBTest extends TestCase {
     public void testGetByLocation() throws Exception {
         System.out.println("getByLocation");
         //arrange
-        DeliveryRegion object =new DeliveryRegion(555,2.0,4.0);
+        DeliveryRegion object =new DeliveryRegion("555",2.0,4.0);
         object.setId(Long.MAX_VALUE);
         TestMethod_Add(object);
         DeliveryRegionRepositoryDB instance = new DeliveryRegionRepositoryDB(entityManager);
@@ -86,15 +86,15 @@ public class DeliveryRegionRepositoryDBTest extends TestCase {
     public void testGetClosestByLocation() throws Exception {
         System.out.println("getClosestByLocation");
        //arrange
-        DeliveryRegion object =new DeliveryRegion(111,2.0,4.0);
+        DeliveryRegion object =new DeliveryRegion("111",2.0,4.0);
         object.setId(Long.MAX_VALUE);
         TestMethod_Add(object);
         
-        DeliveryRegion expResult =new DeliveryRegion(2,5.0,5.0);
+        DeliveryRegion expResult =new DeliveryRegion("2",5.0,5.0);
         expResult.setId(Long.MAX_VALUE-1);
         TestMethod_Add(expResult);
         
-        object =new DeliveryRegion(3,0.0,0.0);
+        object =new DeliveryRegion("3",0.0,0.0);
         object.setId(Long.MAX_VALUE-2);
         TestMethod_Add(object);
         DeliveryRegionRepositoryDB instance = new DeliveryRegionRepositoryDB(entityManager);
@@ -117,7 +117,7 @@ public class DeliveryRegionRepositoryDBTest extends TestCase {
     public void testAdd() throws Exception {
         System.out.println("add");
         //arrange
-        DeliveryRegion Object = new DeliveryRegion(333, 3.33, 5.55);
+        DeliveryRegion Object = new DeliveryRegion("333", 3.33, 5.55);
         DeliveryRegionRepositoryDB instance = new DeliveryRegionRepositoryDB(entityManager);
         Object.setId(Long.MAX_VALUE);
         
@@ -130,7 +130,7 @@ public class DeliveryRegionRepositoryDBTest extends TestCase {
         
         //assert
         assertNotNull(result);
-        assertEquals(333, result.getExternal_id());
+        assertEquals("333", result.getExternal_id());
         assertEquals(3.33,result.getLongitude());
         assertEquals(5.55,result.getLatitude());
         
@@ -144,10 +144,10 @@ public class DeliveryRegionRepositoryDBTest extends TestCase {
         System.out.println("update");
         
         //arrange
-        DeliveryRegion Object = new DeliveryRegion(333, 3.33, 5.55);
+        DeliveryRegion Object = new DeliveryRegion("333", 3.33, 5.55);
         Object.setId(Long.MAX_VALUE);
         TestMethod_Add(Object);
-        Object= new DeliveryRegion(888,7,9);
+        Object= new DeliveryRegion("888",7,9);
         DeliveryRegionRepositoryDB instance = new DeliveryRegionRepositoryDB(entityManager);
         //act
         instance.update(Long.MAX_VALUE, Object);
@@ -158,7 +158,7 @@ public class DeliveryRegionRepositoryDBTest extends TestCase {
         //assert
         
         assertNotNull(result);
-        assertEquals(888, result.getExternal_id());
+        assertEquals("888", result.getExternal_id());
         assertEquals(7.0, result.getLongitude());
         assertEquals(9.0, result.getLatitude());
         
@@ -171,7 +171,7 @@ public class DeliveryRegionRepositoryDBTest extends TestCase {
     public void testDelete() throws Exception {
         System.out.println("delete");
         //arrange
-        DeliveryRegion object =new DeliveryRegion(1,2,4);
+        DeliveryRegion object =new DeliveryRegion("1",2,4);
         object.setId(Long.MAX_VALUE);
         TestMethod_Add(object);
         DeliveryRegionRepositoryDB instance = new DeliveryRegionRepositoryDB(entityManager);
@@ -191,7 +191,7 @@ public class DeliveryRegionRepositoryDBTest extends TestCase {
     public void testGetAll() throws Exception {
         System.out.println("getAll");
         //arrange
-        DeliveryRegion object =new DeliveryRegion(1,2.0,4.0);
+        DeliveryRegion object =new DeliveryRegion("1",2.0,4.0);
         object.setId(Long.MAX_VALUE);
         TestMethod_Add(object);
         DeliveryRegionRepositoryDB instance = new DeliveryRegionRepositoryDB(entityManager);
@@ -215,7 +215,7 @@ public class DeliveryRegionRepositoryDBTest extends TestCase {
     public void testGetById() throws Exception {
         System.out.println("getById");
         //arrange
-        DeliveryRegion object =new DeliveryRegion(1,2.0,4.0);
+        DeliveryRegion object =new DeliveryRegion("1",2.0,4.0);
         object.setId(Long.MAX_VALUE);
         TestMethod_Add(object);
         DeliveryRegionRepositoryDB instance = new DeliveryRegionRepositoryDB(entityManager);

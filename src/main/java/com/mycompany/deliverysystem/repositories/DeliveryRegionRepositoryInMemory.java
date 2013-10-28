@@ -16,10 +16,10 @@ public class DeliveryRegionRepositoryInMemory implements DeliveryRegionRepositor
 
     public List<DeliveryRegion> regions = new ArrayList<DeliveryRegion>();
 
-    public DeliveryRegion getByExternalId(int id) {
+    public DeliveryRegion getByExternalId(String id) {
         
         for (DeliveryRegion tempregion:regions){
-            if(tempregion.getExternal_id()==id){
+            if(tempregion.getExternal_id().equals(id)){
                 return tempregion;
             }
         }

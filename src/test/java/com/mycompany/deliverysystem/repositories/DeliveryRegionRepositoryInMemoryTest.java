@@ -38,18 +38,18 @@ public class DeliveryRegionRepositoryInMemoryTest extends TestCase {
         
         //arrange
         DeliveryRegionRepositoryInMemory instance = new DeliveryRegionRepositoryInMemory();
-        instance.regions.add(new DeliveryRegion(123,4.44,4.44));
-        instance.regions.add(new DeliveryRegion(325,3.44,3.44));
-        instance.regions.add(new DeliveryRegion(495,4.44,4.44));
+        instance.regions.add(new DeliveryRegion("123",4.44,4.44));
+        instance.regions.add(new DeliveryRegion("325",3.44,3.44));
+        instance.regions.add(new DeliveryRegion("495",4.44,4.44));
         
         //act
-        DeliveryRegion result = instance.getByExternalId(325);
+        DeliveryRegion result = instance.getByExternalId("325");
         
         //assert
         assertNotNull(result);
         assertEquals(3.44, result.getLongitude());
         assertEquals(3.44, result.getLatitude());
-        assertEquals(325, result.getExternal_id());
+        assertEquals("325", result.getExternal_id());
     }
     
     public void testGetByExternalIdInvalid() {
@@ -57,12 +57,12 @@ public class DeliveryRegionRepositoryInMemoryTest extends TestCase {
         
         //arrange
         DeliveryRegionRepositoryInMemory instance = new DeliveryRegionRepositoryInMemory();
-        instance.regions.add(new DeliveryRegion(123,4.44,4.44));
-        instance.regions.add(new DeliveryRegion(325,3.44,3.44));
-        instance.regions.add(new DeliveryRegion(495,4.44,4.44));
+        instance.regions.add(new DeliveryRegion("123",4.44,4.44));
+        instance.regions.add(new DeliveryRegion("325",3.44,3.44));
+        instance.regions.add(new DeliveryRegion("495",4.44,4.44));
         
         //act
-        DeliveryRegion result = instance.getByExternalId(999);
+        DeliveryRegion result = instance.getByExternalId("999");
         
         //assert
         assertEquals(result,null);
@@ -75,9 +75,9 @@ public class DeliveryRegionRepositoryInMemoryTest extends TestCase {
         System.out.println("getByLocation");
         //arrange
         DeliveryRegionRepositoryInMemory instance = new DeliveryRegionRepositoryInMemory();
-        instance.regions.add(new DeliveryRegion(123,5.44,5.44));
-        instance.regions.add(new DeliveryRegion(325,3.44,3.44));
-        instance.regions.add(new DeliveryRegion(495,4.44,4.44));
+        instance.regions.add(new DeliveryRegion("123",5.44,5.44));
+        instance.regions.add(new DeliveryRegion("325",3.44,3.44));
+        instance.regions.add(new DeliveryRegion("495",4.44,4.44));
         
         //act
         DeliveryRegion result = instance.getByLocation(3.44, 3.44);
@@ -86,16 +86,16 @@ public class DeliveryRegionRepositoryInMemoryTest extends TestCase {
         assertNotNull(result);
         assertEquals(3.44, result.getLongitude());
         assertEquals(3.44, result.getLatitude());
-        assertEquals(325, result.getExternal_id());
+        assertEquals("325", result.getExternal_id());
     }
     
     public void testGetByLocationInvalid() {
         System.out.println("getByLocation");
         //arrange
         DeliveryRegionRepositoryInMemory instance = new DeliveryRegionRepositoryInMemory();
-        instance.regions.add(new DeliveryRegion(123,5.44,5.44));
-        instance.regions.add(new DeliveryRegion(325,3.44,3.44));
-        instance.regions.add(new DeliveryRegion(495,4.44,4.44));
+        instance.regions.add(new DeliveryRegion("123",5.44,5.44));
+        instance.regions.add(new DeliveryRegion("325",3.44,3.44));
+        instance.regions.add(new DeliveryRegion("495",4.44,4.44));
         
         //act
         DeliveryRegion result = instance.getByLocation(3.45, 3.44);
@@ -112,9 +112,9 @@ public class DeliveryRegionRepositoryInMemoryTest extends TestCase {
         
         //arrange
         DeliveryRegionRepositoryInMemory instance = new DeliveryRegionRepositoryInMemory();
-        instance.regions.add(new DeliveryRegion(123,5.44,5.44));
-        instance.regions.add(new DeliveryRegion(325,3.44,3.44));
-        instance.regions.add(new DeliveryRegion(495,4.44,4.44));
+        instance.regions.add(new DeliveryRegion("123",5.44,5.44));
+        instance.regions.add(new DeliveryRegion("325",3.44,3.44));
+        instance.regions.add(new DeliveryRegion("495",4.44,4.44));
         
         //act
         DeliveryRegion result = instance.getClosestByLocation(3.45, 3.54);
@@ -123,7 +123,7 @@ public class DeliveryRegionRepositoryInMemoryTest extends TestCase {
         assertNotNull(result);
         assertEquals(3.44, result.getLongitude());
         assertEquals(3.44, result.getLatitude());
-        assertEquals(325, result.getExternal_id());
+        assertEquals("325", result.getExternal_id());
     }
     
     public void testGetClosestByLocationInvalid() {
@@ -146,7 +146,7 @@ public class DeliveryRegionRepositoryInMemoryTest extends TestCase {
         System.out.println("add");
         
         //arrange
-        DeliveryRegion newRegion = new DeliveryRegion(123,1.23,2.23);
+        DeliveryRegion newRegion = new DeliveryRegion("123",1.23,2.23);
         DeliveryRegionRepositoryInMemory instance = new DeliveryRegionRepositoryInMemory();
         
         //act
@@ -164,18 +164,18 @@ public class DeliveryRegionRepositoryInMemoryTest extends TestCase {
         
         //arrange
         DeliveryRegionRepositoryInMemory instance = new DeliveryRegionRepositoryInMemory();
-        DeliveryRegion tempregion =new DeliveryRegion(123,5.44,5.44);
+        DeliveryRegion tempregion =new DeliveryRegion("123",5.44,5.44);
         tempregion.setId(1);
         instance.regions.add(tempregion);
-        tempregion = new DeliveryRegion(325,3.44,3.44);
+        tempregion = new DeliveryRegion("325",3.44,3.44);
         tempregion.setId(2);
         instance.regions.add(tempregion);
-        tempregion = new DeliveryRegion(987,4.44,4.44);
+        tempregion = new DeliveryRegion("987",4.44,4.44);
         tempregion.setId(3);
         instance.regions.add(tempregion);
         
         //act
-        instance.update(1, new DeliveryRegion(1,2,3));
+        instance.update(1, new DeliveryRegion("1",2,3));
         
         //assert
         DeliveryRegion result=instance.regions.get(0);
@@ -183,7 +183,7 @@ public class DeliveryRegionRepositoryInMemoryTest extends TestCase {
         assertNotNull(result);
         assertEquals(2.0, result.getLongitude());
         assertEquals(3.0, result.getLatitude());
-        assertEquals(1, result.getExternal_id());
+        assertEquals("1", result.getExternal_id());
         
     }
 
@@ -195,7 +195,7 @@ public class DeliveryRegionRepositoryInMemoryTest extends TestCase {
         
         //arrange
         DeliveryRegionRepositoryInMemory instance = new DeliveryRegionRepositoryInMemory();
-        DeliveryRegion tempregion =new DeliveryRegion(123,5.44,5.44);
+        DeliveryRegion tempregion =new DeliveryRegion("123",5.44,5.44);
         tempregion.setId(1);
         instance.regions.add(tempregion);
         
@@ -212,7 +212,7 @@ public class DeliveryRegionRepositoryInMemoryTest extends TestCase {
         
         //arrange
         DeliveryRegionRepositoryInMemory instance = new DeliveryRegionRepositoryInMemory();
-        DeliveryRegion tempregion =new DeliveryRegion(123,5.44,5.44);
+        DeliveryRegion tempregion =new DeliveryRegion("123",5.44,5.44);
         tempregion.setId(1);
         instance.regions.add(tempregion);
         
@@ -231,9 +231,9 @@ public class DeliveryRegionRepositoryInMemoryTest extends TestCase {
         
         //arrange
         DeliveryRegionRepositoryInMemory instance = new DeliveryRegionRepositoryInMemory();
-        instance.regions.add(new DeliveryRegion(123,5.44,5.44));
-        instance.regions.add(new DeliveryRegion(325,3.44,3.44));
-        instance.regions.add(new DeliveryRegion(495,4.44,4.44));
+        instance.regions.add(new DeliveryRegion("123",5.44,5.44));
+        instance.regions.add(new DeliveryRegion("325",3.44,3.44));
+        instance.regions.add(new DeliveryRegion("495",4.44,4.44));
         
         //act
         List result = (List) instance.getAll();
@@ -250,13 +250,13 @@ public class DeliveryRegionRepositoryInMemoryTest extends TestCase {
         
         //arrange
         DeliveryRegionRepositoryInMemory instance = new DeliveryRegionRepositoryInMemory();
-        DeliveryRegion tempregion =new DeliveryRegion(123,5.44,5.44);
+        DeliveryRegion tempregion =new DeliveryRegion("123",5.44,5.44);
         tempregion.setId(1);
         instance.regions.add(tempregion);
-        tempregion = new DeliveryRegion(325,3.44,3.44);
+        tempregion = new DeliveryRegion("325",3.44,3.44);
         tempregion.setId(2);
         instance.regions.add(tempregion);
-        tempregion = new DeliveryRegion(987,4.44,4.44);
+        tempregion = new DeliveryRegion("987",4.44,4.44);
         tempregion.setId(3);
         instance.regions.add(tempregion);
         
@@ -267,20 +267,20 @@ public class DeliveryRegionRepositoryInMemoryTest extends TestCase {
         assertNotNull(result);
         assertEquals(3.44, result.getLongitude());
         assertEquals(3.44, result.getLatitude());
-        assertEquals(325, result.getExternal_id());
+        assertEquals("325", result.getExternal_id());
     }
     public void testGetByIdInvalid() {
         System.out.println("getById");
         
         //arrange
         DeliveryRegionRepositoryInMemory instance = new DeliveryRegionRepositoryInMemory();
-        DeliveryRegion tempregion =new DeliveryRegion(123,5.44,5.44);
+        DeliveryRegion tempregion =new DeliveryRegion("123",5.44,5.44);
         tempregion.setId(1);
         instance.regions.add(tempregion);
-        tempregion = new DeliveryRegion(325,3.44,3.44);
+        tempregion = new DeliveryRegion("325",3.44,3.44);
         tempregion.setId(2);
         instance.regions.add(tempregion);
-        tempregion = new DeliveryRegion(987,4.44,4.44);
+        tempregion = new DeliveryRegion("987",4.44,4.44);
         tempregion.setId(3);
         instance.regions.add(tempregion);
         
