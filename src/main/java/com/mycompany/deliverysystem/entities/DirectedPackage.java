@@ -21,7 +21,9 @@ public class DirectedPackage implements Serializable{
     @Id
     @GeneratedValue
     private long id;
-    private String address;
+    private String street;
+    private String postalcode;
+    private String city;
     private boolean delivered;
     
     @ManyToOne (cascade= CascadeType.PERSIST)
@@ -29,10 +31,12 @@ public class DirectedPackage implements Serializable{
     
     public DirectedPackage(){}
     
-    public DirectedPackage(String address, DeliveryRegion deliveryRegion)
+    public DirectedPackage(String street, String postalcode, String city, DeliveryRegion deliveryRegion)
     {
         this.deliveryRegion = deliveryRegion;
-        this.address = address;
+        this.street = street;
+        this.postalcode = postalcode;
+        this.city = city;
         this.delivered = false;
     }
 
@@ -78,26 +82,54 @@ public class DirectedPackage implements Serializable{
         this.delivered = delivered;
     }
 
-    /**
-     * @return the address
-     */
-    public String getAddress() {
-        return address;
-    }
-
-    /**
-     * @param address the address to set
-     */
-    public void setAddress(String address) {
-        this.address = address;
-    }
-    
     @Override
     public String toString()
     {
         return "DirectedPackage: id<" + id + ">, "
-                + "address<" + address + ">, "
+                + "address<" + getCity() + ">, "
                 + "delivered<" + delivered + ">, "
                 + "deliveryregion_externalId<" + deliveryRegion.getExternal_id() + ">";
+    }
+
+    /**
+     * @return the street
+     */
+    public String getStreet() {
+        return street;
+    }
+
+    /**
+     * @param street the street to set
+     */
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    /**
+     * @return the postalcode
+     */
+    public String getPostalcode() {
+        return postalcode;
+    }
+
+    /**
+     * @param postalcode the postalcode to set
+     */
+    public void setPostalcode(String postalcode) {
+        this.postalcode = postalcode;
+    }
+
+    /**
+     * @return the city
+     */
+    public String getCity() {
+        return city;
+    }
+
+    /**
+     * @param city the city to set
+     */
+    public void setCity(String city) {
+        this.city = city;
     }
 }

@@ -114,7 +114,7 @@ public class DirectedPackageRepositoryDBTest extends TestCase {
         DirectedPackageRepositoryDB repo = new DirectedPackageRepositoryDB(entityManager);
         DeliveryRegion region = new DeliveryRegion();
         region.setId(Long.MAX_VALUE);
-        DirectedPackage newPackage = new DirectedPackage("address", region);
+        DirectedPackage newPackage = new DirectedPackage("street", "postal", "city", region);
         this.testmethod_add(newPackage);
         
         //act
@@ -199,13 +199,17 @@ public class DirectedPackageRepositoryDBTest extends TestCase {
         System.out.println("update");
         
         //arrange
-        String updatedAddress = "update address";
+        String updateStreet = "update street";
+        String updatePostal = "update postal";
+        String updateCity = "update city";
         DirectedPackageRepositoryDB repo = new DirectedPackageRepositoryDB(entityManager);
         DirectedPackage newPackage = new DirectedPackage();
         newPackage.setId(Long.MAX_VALUE);
         this.testmethod_add(newPackage);
         DirectedPackage updatePackage = new DirectedPackage();
-        updatePackage.setAddress(updatedAddress);
+        updatePackage.setStreet(updateStreet);
+        updatePackage.setPostalcode(updatePostal);
+        updatePackage.setCity(updateCity);
         
         //act
         repo.update(newPackage.getId(), updatePackage);
@@ -217,7 +221,10 @@ public class DirectedPackageRepositoryDBTest extends TestCase {
         this.testmethod_delete(newPackage.getId());
         
         //assert
-        assertEquals(result.getAddress(), updatedAddress);
+        boolean equalStreet = result.getStreet().equals(updateStreet);
+        boolean equalPostal = result.getPostalcode().equals(updatePostal);
+        boolean equalCity = result.getCity().equals(updateCity);
+        assertTrue(equalStreet && equalPostal && equalCity);
     }
 
     /**

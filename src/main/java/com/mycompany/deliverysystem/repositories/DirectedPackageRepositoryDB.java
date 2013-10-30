@@ -91,7 +91,9 @@ public class DirectedPackageRepositoryDB implements DirectedPackageRepository {
             tx = entityManager.getTransaction();
             tx.begin();
             DirectedPackage updatePackage = entityManager.find(DirectedPackage.class, id);
-            updatePackage.setAddress(Object.getAddress());
+            updatePackage.setStreet(Object.getStreet());
+            updatePackage.setPostalcode(Object.getPostalcode());
+            updatePackage.setCity(Object.getCity());
             updatePackage.setDelivered(Object.isDelivered());
             updatePackage.setDeliveryRegion(Object.getDeliveryRegion());
             LOGGER.log(Level.INFO, "updated DirectedPackage with id <{0}> successfully", id);

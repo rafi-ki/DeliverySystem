@@ -41,7 +41,7 @@ public class DirectedPackageRepositoryInMemoryTest extends TestCase {
         instance.packageList.clear();
         DeliveryRegion region = new DeliveryRegion("1", 0, 0);
         region.setId(region_id);
-        DirectedPackage dirPackage = new DirectedPackage("bla", region);
+        DirectedPackage dirPackage = new DirectedPackage("street", "1210", "city", region);
         dirPackage.setId(packageId);
         instance.packageList.add(dirPackage);
         
@@ -65,7 +65,7 @@ public class DirectedPackageRepositoryInMemoryTest extends TestCase {
         //arrange
         DirectedPackageRepositoryInMemory instance = new DirectedPackageRepositoryInMemory();
         instance.packageList.clear();
-        DirectedPackage dirPackage = new DirectedPackage("", new DeliveryRegion());
+        DirectedPackage dirPackage = new DirectedPackage("street", "postalcode", "city", new DeliveryRegion());
         instance.add(dirPackage);
         
         //act
@@ -85,7 +85,7 @@ public class DirectedPackageRepositoryInMemoryTest extends TestCase {
         //arrange
         DirectedPackageRepositoryInMemory instance = new DirectedPackageRepositoryInMemory();
         instance.packageList.clear();
-        DirectedPackage dirPackage = new DirectedPackage("aaa", new DeliveryRegion());
+        DirectedPackage dirPackage = new DirectedPackage("street", "postcode", "city", new DeliveryRegion());
         
         //act
         instance.add(dirPackage);
@@ -105,18 +105,24 @@ public class DirectedPackageRepositoryInMemoryTest extends TestCase {
         instance.packageList.clear();
         DirectedPackage dirPackage = new DirectedPackage();
         instance.packageList.add(dirPackage);
-        String expAddress = "Addresse 1";
+        String expStreet = "street";
+        String expPostal = "postalcode";
+        String expCity = "city";
         DirectedPackage newPackage = new DirectedPackage();
-        newPackage.setAddress(expAddress);
+        newPackage.setStreet(expStreet);
+        newPackage.setPostalcode(expPostal);
+        newPackage.setCity(expCity);
         newPackage.setDelivered(true);
         
         //act
         instance.update(dirPackage.getId(), newPackage);
         
         //assert
-        boolean equalAddress = instance.packageList.get(0).getAddress().equals(expAddress);
+        boolean equalStreet = instance.packageList.get(0).getStreet().equals(expStreet);
+        boolean equalPostal = instance.packageList.get(0).getPostalcode().equals(expPostal);
+        boolean equalCity = instance.packageList.get(0).getCity().equals(expCity);
         boolean equalDeliveredState = instance.packageList.get(0).isDelivered();
-        assertTrue(equalAddress && equalDeliveredState);
+        assertTrue(equalStreet && equalPostal && equalCity && equalDeliveredState);
     }
 
     /**
@@ -128,7 +134,7 @@ public class DirectedPackageRepositoryInMemoryTest extends TestCase {
         //arrange
         DirectedPackageRepositoryInMemory instance = new DirectedPackageRepositoryInMemory();
         instance.packageList.clear();
-        DirectedPackage dirPackage = new DirectedPackage("Address", new DeliveryRegion());
+        DirectedPackage dirPackage = new DirectedPackage("street", "postal", "city", new DeliveryRegion());
         long packageId = 1;
         dirPackage.setId(packageId);
         instance.packageList.add(dirPackage);
@@ -150,7 +156,7 @@ public class DirectedPackageRepositoryInMemoryTest extends TestCase {
         DirectedPackageRepositoryInMemory instance = new DirectedPackageRepositoryInMemory();
         instance.packageList.clear();
         instance.packageList.add(new DirectedPackage());
-        instance.packageList.add(new DirectedPackage("address", new DeliveryRegion()));
+        instance.packageList.add(new DirectedPackage("street", "postal", "city", new DeliveryRegion()));
         
         //act
         List<DirectedPackage> result = (List<DirectedPackage>) instance.getAll();
