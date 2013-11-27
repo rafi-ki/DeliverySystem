@@ -230,13 +230,9 @@ public class DeliveryRegionRepositoryDBTest extends TestCase {
     }
     
     public void testExceptionInAdd(){
-    
             System.out.println("ExceptionInAdd");
-            
             //arrange
-       
             DeliveryRegionRepositoryDB instance = new DeliveryRegionRepositoryDB(entityManager);
-            
             //act 
             try{
                 instance.add(null);
@@ -245,8 +241,48 @@ public class DeliveryRegionRepositoryDBTest extends TestCase {
                 //assert
                 
             }
-        
-            
+    }
+    
+    public void testExceptionInDelete(){
+            System.out.println("ExceptionInDelete");
+            //arrange
+            DeliveryRegionRepositoryDB instance = new DeliveryRegionRepositoryDB(entityManager);
+            //act 
+            try{
+                instance.delete(-1);
+                fail("No Exception was thrown!");
+            }catch (Exception ex){
+                //assert
+                
+            }
+    }
+    
+    public void testExceptionInGetByExternalId(){
+            System.out.println("ExceptionInGetByExternalId");
+            //arrange
+            DeliveryRegionRepositoryDB instance = new DeliveryRegionRepositoryDB(entityManager);
+            //act 
+            try{
+                instance.getByExternalId(null);
+                fail("No Exception was thrown!");
+            }catch (Exception ex){
+                //assert
+                
+            }
+    }
+    
+    public void testExceptionInUpdate(){
+            System.out.println("ExceptionInUpdate");
+            //arrange
+            DeliveryRegionRepositoryDB instance = new DeliveryRegionRepositoryDB(entityManager);
+            //act 
+            try{
+                instance.update(-1,null);
+                fail("No Exception was thrown!");
+            }catch (Exception ex){
+                //assert
+                
+            }
     }
     
   private void TestMethod_Remove(DeliveryRegion Object)throws RepositoryException{

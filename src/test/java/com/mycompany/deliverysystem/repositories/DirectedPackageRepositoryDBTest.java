@@ -15,6 +15,7 @@ import javax.persistence.Query;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
 import junit.framework.TestCase;
 
 /**
@@ -298,5 +299,47 @@ public class DirectedPackageRepositoryDBTest extends TestCase {
         
         //assert
         assertEquals(result, newPackage);
+    }
+    
+    public void testExceptionInAdd(){
+            System.out.println("ExceptionInAdd");
+            //arrange
+           DirectedPackageRepositoryDB repo = new DirectedPackageRepositoryDB(entityManager);
+            //act 
+            try{
+                repo.add(null);
+                fail("No Exception was thrown!");
+            }catch (Exception ex){
+                //assert
+                
+            }
+    }
+    
+     public void testExceptionInUpdate(){
+            System.out.println("ExceptionInUpdate");
+            //arrange
+           DirectedPackageRepositoryDB repo = new DirectedPackageRepositoryDB(entityManager);
+            //act 
+            try{
+                repo.update(-1,null);
+                fail("No Exception was thrown!");
+            }catch (Exception ex){
+                //assert
+                
+            }
+    }
+    
+      public void testExceptionInDelete(){
+            System.out.println("ExceptionInDelete");
+            //arrange
+           DirectedPackageRepositoryDB repo = new DirectedPackageRepositoryDB(entityManager);
+            //act 
+            try{
+                repo.delete(-1);
+                fail("No Exception was thrown!");
+            }catch (Exception ex){
+                //assert
+                
+            }
     }
 }
